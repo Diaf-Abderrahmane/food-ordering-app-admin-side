@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/down"
+        android:title="Down"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_down"
+        app:showAsAction="always"
+        android:iconTint="@color/black"
+
+        />
+    <item android:id="@+id/up"
+        android:title="Up"
+        android:icon="@drawable/ic_baseline_keyboard_arrow_up"
+        app:showAsAction="always"
+        android:iconTint="@color/black"
+
+        />
+    <item
+        android:title="Edit name"
+        android:id="@+id/Edit"
+        android:iconTint="@color/black"
+
+        />
+    <item
+        android:title="Add new Option"
+        android:id="@+id/Add_New_Option"
+        android:iconTint="@color/black"
+        />
+    <item
+        android:title="Delete"
+        android:id="@+id/Delete"
+        android:iconTint="@color/black"
+
+        />
+</menu>
