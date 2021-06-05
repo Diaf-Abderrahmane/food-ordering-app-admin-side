@@ -12,34 +12,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+
     <TextView
         android:id="@+id/dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="386dp"
+        android:layout_height="64dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="24dp"
+        android:text="Send new Notification"
         android:textColor="@color/black"
-        android:text="Send new Notification"/>
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/eblack"
         android:layout_marginTop="15dp"
-        android:hint="Title">
+        android:hint="Title"
+        android:textColor="@color/black"
+        android:textColorHint="@color/eblack">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/eblack"/>
+            android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/eblack"
+        android:textColor="@color/black"
+        android:textColorHint="@color/eblack"
         android:layout_marginTop="10dp"
         android:hint="Description">
 
@@ -47,7 +53,7 @@
             android:id="@+id/Text"
             android:layout_width="match_parent"
             android:layout_height="104dp"
-            android:textColor="@color/eblack" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

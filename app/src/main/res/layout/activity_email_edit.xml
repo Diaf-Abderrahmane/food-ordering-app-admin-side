@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:paddingLeft="40dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/eblack"
         android:layout_margin="20dp"
 
         android:hint="new Email"
@@ -30,6 +32,8 @@
         android:layout_margin="20dp"
         android:hint="Confirmer Email"
         android:paddingLeft="40dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/eblack"
         android:background="@drawable/cercle"/>
     <Button
         android:id="@+id/Edit"
