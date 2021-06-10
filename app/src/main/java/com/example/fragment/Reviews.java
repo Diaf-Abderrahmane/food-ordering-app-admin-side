@@ -64,7 +64,7 @@ public class Reviews extends Fragment {
 
         return view;
     }
-    private void gotoActivity(Class<?> cls){
+  /*  private void gotoActivity(Class<?> cls){
         nav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,7 @@ public class Reviews extends Fragment {
             }
         });
 
-    }
+    }*/
 
 
     private void iniRvComment() {

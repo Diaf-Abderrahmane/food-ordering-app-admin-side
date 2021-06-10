@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
             }
         });
-       /* LinearLayout reveiws=findViewById(R.id.nReviews);
+        LinearLayout reveiws=findViewById(R.id.nReviews);
         reveiws.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.MenuImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.eblack)));
                 findViewById(R.id.ReviewsImg).setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.colorPrimaryDark)));
             }
-        });*/
+        });
     }
 
 }
