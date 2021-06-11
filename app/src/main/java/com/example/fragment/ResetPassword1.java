@@ -1,14 +1,11 @@
 package com.example.fragment;
 
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Bundle;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,25 +15,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.regex.Pattern;
-
-
-public class ResetPassword extends Fragment {
+public class ResetPassword1 extends AppCompatActivity {
     private TextView resetPassword,resetInst;
     private Button resetPasswordBtn;
     private TextInputLayout email;
     FirebaseAuth auth;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.reset_password, container, false);
-        resetPassword = view.findViewById(R.id.resetPassword);
-        resetInst = view.findViewById(R.id.resetInst);
-        email = view.findViewById(R.id.email);
-        resetPasswordBtn = view.findViewById(R.id.resetPasswordBtn);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reset_password1);
+        resetPassword = findViewById(R.id.resetPassword);
+        resetInst = findViewById(R.id.resetInst);
+        email = findViewById(R.id.email);
+        resetPasswordBtn = findViewById(R.id.resetPasswordBtn);
         auth = FirebaseAuth.getInstance();
         resetPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,12 +36,8 @@ public class ResetPassword extends Fragment {
                 resetPassword();
             }
         });
-
-
-
-
-        return view;
     }
+
     private void resetPassword(){
         String emailInput = email.getEditText().getText().toString().trim();
         if (emailInput.isEmpty()) {
@@ -65,13 +53,12 @@ public class ResetPassword extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getActivity(), "Check your email to reset your password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetPassword1.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), "Try again! something went wrong.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResetPassword1.this, "Try again! something went wrong.", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }
-
 }
