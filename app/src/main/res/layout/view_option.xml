@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/option_view">
     <androidx.cardview.widget.CardView
+        android:id="@+id/Option_v"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
@@ -73,6 +74,7 @@
                     <androidx.appcompat.widget.Toolbar
                         android:elevation="7dp"
                         android:id="@+id/ToolBar"
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="0dp"
