@@ -15,11 +15,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:fontFamily="monospace"
+            android:fontFamily="@font/opensans_regular"
             android:gravity="center_vertical"
             android:text="Name"
-            android:textColor="@color/primaryColor"
-            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:textSize="22dp"
             android:textStyle="bold"/>
 
         <androidx.appcompat.widget.Toolbar

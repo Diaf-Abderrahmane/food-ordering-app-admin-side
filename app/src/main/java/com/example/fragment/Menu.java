@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -364,6 +365,7 @@ public class Menu extends Fragment {
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
+            private final CardView Option_v;
             private final TextView OptionName;
             private final TextView OptionDescription;
             private final TextView OptionPrice;
@@ -373,6 +375,7 @@ public class Menu extends Fragment {
             public ViewHolder1(View view) {
                 super(view);
 
+                Option_v=view.findViewById(R.id.Option_v);
                 OptionName = view.findViewById(R.id.OptionName);
                 OptionDescription = view.findViewById(R.id.OptionDescription);
                 OptionPrice = view.findViewById(R.id.OptionPrice);
@@ -381,6 +384,7 @@ public class Menu extends Fragment {
 
             }
 
+            public CardView getOption_v(){return  Option_v;}
             public TextView getOptionName() { return OptionName;  }
             public TextView getOptionDescription() { return OptionDescription;  }
             public TextView getOptionPrice() { return OptionPrice;  }
@@ -478,6 +482,13 @@ public class Menu extends Fragment {
                                     });
                                     break;
                             }
+                            return false;
+                        }
+                    });
+                    viewHolder1.getOption_v().setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            viewHolder1.getToolbar().showOverflowMenu();
                             return false;
                         }
                     });
