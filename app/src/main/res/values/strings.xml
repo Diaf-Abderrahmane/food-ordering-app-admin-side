@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FragmentwithsimpleNav</string>
+    <string name="app_name">Restop Admin</string>
     <string name="invalid_username">Please enter a valid username</string>
     <string name="invalid_email">Please enter a valid email</string>
     <string name="invalid_password">Please enter a valid password</string>

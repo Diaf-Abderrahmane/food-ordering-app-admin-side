@@ -41,6 +41,7 @@ public class Sign_up extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        getActionBar().hide();
         register = findViewById(R.id.register);
         toLogin = findViewById(R.id.toLogin);
         username = findViewById(R.id.username);

@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="300dp"
         android:layout_height="250dp"
-        android:background="@drawable/ic_baseline_email1"/>
+        android:background="@drawable/ic_baseline_email"/>
     <EditText
         android:id="@+id/Email"
         android:inputType="textEmailAddress"
@@ -23,7 +23,7 @@
         android:layout_margin="20dp"
 
         android:hint="new Email"
-        android:background="@drawable/cercle"/>
+        android:background="@drawable/cercle1"/>
     <EditText
         android:id="@+id/CEmail"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:paddingLeft="40dp"
         android:textColor="@color/black"
         android:textColorHint="@color/eblack"
-        android:background="@drawable/cercle"/>
+        android:background="@drawable/cercle1"/>
     <Button
         android:id="@+id/Edit"
         android:layout_gravity="center"

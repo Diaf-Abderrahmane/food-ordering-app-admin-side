@@ -5,9 +5,9 @@
     android:gravity="center"
     android:background="@drawable/popupbackgrounddsigne"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:layout_width="365dp"
-    android:layout_height="280dp">
+
+    android:layout_width="380dp"
+    android:layout_height="450dp">
 
     <ImageView
         android:id="@+id/EditIcon"
@@ -15,15 +15,16 @@
         android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.922"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toEndOf="@+id/DialogTilte"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintVertical_bias="0.045" />
 
     <TextView
         android:id="@+id/DialogTilte"
         android:layout_width="250dp"
         android:layout_height="59dp"
+        android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:paddingLeft="30dp"
         android:text="StringEditing"
@@ -31,33 +32,47 @@
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.226"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <EditText
-        android:id="@+id/NewString"
-        android:layout_width="320dp"
-        android:layout_height="70dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/cercle"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/eblack"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:layout_width="322dp"
+        android:layout_height="154dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/NewString"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.395" />
+        app:layout_constraintTop_toBottomOf="@+id/DialogTilte"
+        app:layout_constraintVertical_bias="0.636">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Current"
+            android:textColor="@color/colorPrimarySoft"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Currenttext"
+            android:layout_width="match_parent"
+            android:layout_height="107dp"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="326dp"
-        android:layout_height="103dp"
+        android:layout_width="327dp"
+        android:layout_height="75dp"
         android:layout_marginBottom="16dp"
         android:gravity="end"
         android:orientation="horizontal"
@@ -71,21 +86,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_margin="010dp"
+            android:layout_margin="08dp"
             android:background="@drawable/btncercle"
             android:text="Cancel"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/NewEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_margin="010dp"
+            android:layout_margin="08dp"
             android:background="@drawable/btncercle"
             android:text="Edit"
-            android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/NewString"
+        android:layout_width="333dp"
+        android:layout_height="90dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/cercle"
+        android:textStyle=""
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/eblack"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

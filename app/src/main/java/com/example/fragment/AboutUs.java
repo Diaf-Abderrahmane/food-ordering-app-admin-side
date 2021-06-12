@@ -43,8 +43,9 @@ public class AboutUs extends AppCompatActivity {
     Uri imageUri;
     ProgressBar progressBar ;
     CircleImageView restaurantlogo;
-    TextView phone,instagramAccount,facebookPage,restaurantName,email,stringEditing;
-    String logoUrl;
+    ImageView phone,instagramAccount,facebookPage,email,stringEditing;
+    TextView restaurantName;
+    String logoUrl,StrEmail,StrFP,StrIA,StrPH,StrRN;
     DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
     DatabaseReference mImageRef = firebaseDatabase.child("LogoUrl");
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance() ;
@@ -53,11 +54,11 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        email = (TextView) findViewById(R.id.EmailOfContact);
+        email = (ImageView) findViewById(R.id.EmailOfContact);
         restaurantName = (TextView) findViewById(R.id.RestaurantName);
-        facebookPage = (TextView) findViewById(R.id.Facebook);
-        instagramAccount = (TextView) findViewById(R.id.Instagram);
-        phone = (TextView) findViewById(R.id.Phone);
+        facebookPage = (ImageView) findViewById(R.id.Facebook);
+        instagramAccount = (ImageView) findViewById(R.id.Instagram);
+        phone = (ImageView) findViewById(R.id.Phone);
         restaurantlogo = (CircleImageView) findViewById(R.id.Logo);
         progressBar = (ProgressBar) findViewById(R.id.LogoProgress);
         mImageRef.addValueEventListener(new ValueEventListener() {
@@ -89,22 +90,19 @@ public class AboutUs extends AppCompatActivity {
                 for (DataSnapshot snap:snapshot.getChildren()){
                     switch (i){
                         case 0:
-                            email.setText(snap.getValue().toString());
+                            StrEmail =snap.getValue().toString();
                             break;
                         case 1:
-                            facebookPage.setText(snap.getValue().toString());
-                            break;
-                        case 3:
-                            logoUrl = snap.getValue().toString();
+                            StrFP =snap.getValue().toString();
                             break;
                         case 2:
-                            instagramAccount.setText(snap.getValue().toString());
+                            StrIA =snap.getValue().toString();
                             break;
                         case 4:
-                            phone.setText(snap.getValue().toString());
+                            StrPH =snap.getValue().toString();
                             break;
                         case 5:
-                            restaurantName.setText(snap.getValue().toString());
+                            StrRN =snap.getValue().toString();
                             break;
                     }
                     i++;
@@ -124,31 +122,31 @@ public class AboutUs extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                showDialog(AboutUs.this,"email"," admin@exmple.exmple");
+                showDialog(AboutUs.this,"email",StrEmail);
             }
         });
         facebookPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 showDialog(AboutUs.this,"facebookPage"," Page Url");
+                 showDialog(AboutUs.this,"facebookPage",StrFP);
                 }
         });
         instagramAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"instagramAccount"," account Url");
+                showDialog(AboutUs.this,"instagramAccount",StrIA);
             }
         });
         restaurantName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"restaurantName"," your Restaurant's name");
+                showDialog(AboutUs.this,"restaurantName",StrRN);
             }
         });
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"phone"," your Phone number");
+                showDialog(AboutUs.this,"phone",StrPH);
             }
         });
     }
@@ -159,12 +157,14 @@ public class AboutUs extends AppCompatActivity {
         dialog.setContentView(R.layout.aboutuspopup);
         EditText newString = (EditText) dialog.findViewById(R.id.NewString);
         TextView dialogTilte = (TextView) dialog.findViewById(R.id.DialogTilte);
+        final TextView currentText = (TextView) dialog.findViewById(R.id.Currenttext);
         Button cancel = (Button) dialog.findViewById(R.id.Cancel);
         Button newEdit = (Button) dialog.findViewById(R.id.NewEdit);
         String nString =newString.getText().toString();
         ImageView editIcon = (ImageView) dialog.findViewById(R.id.EditIcon);
         dialogTilte.setText(msg);
-        newString.setHint(hint);
+        newString.setHint("New");
+        currentText.setText(hint);
         switch (msg){
             case "email":
                 newString.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -172,15 +172,15 @@ public class AboutUs extends AppCompatActivity {
                 break;
             case "facebookPage":
                 newString.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-                editIcon.setImageDrawable(getDrawable(R.drawable.facebook));
+                editIcon.setImageDrawable(getDrawable(R.drawable.ic_facebook));
                 break;
             case "instagramAccount":
                 newString.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-                editIcon.setImageDrawable(getDrawable(R.drawable.instagram));
+                editIcon.setImageDrawable(getDrawable(R.drawable.ic_instagram));
                 break;
             case "restaurantName":
                 newString.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-                editIcon.setImageDrawable(getDrawable(R.drawable.ic_baseline_restaurant_menu1));
+                editIcon.setImageDrawable(getDrawable(R.drawable.ic_baseline_person));
                 break;
             case "phone":
                 newString.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -194,29 +194,50 @@ public class AboutUs extends AppCompatActivity {
                 switch (msg){
                     case "email":
                         String finalNewEmail = newString.getText().toString();
+                        if(finalNewEmail.equals("")){
+                            Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
+                        }else {
                         firebaseDatabase.child("Email").setValue(finalNewEmail);
-                        email.setText(finalNewEmail);
+                        Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case "facebookPage":
                         String finalNewFacebook = newString.getText().toString();
+                        if(finalNewFacebook.equals("")){
+                            Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
+                        }else {
                         firebaseDatabase.child("FacebookPage").setValue(finalNewFacebook);
-                        facebookPage.setText(finalNewFacebook);
+                            Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case "instagramAccount":
                         String finalNewInstagramAccount = newString.getText().toString();
+                        if(finalNewInstagramAccount.equals("")){
+                            Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
+                        }else {
                         firebaseDatabase.child("InstagramAccount").setValue(finalNewInstagramAccount);
-                        instagramAccount.setText(finalNewInstagramAccount);
+                            Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        }
 
                         break;
                     case "restaurantName":
                         String finalNewRestaurantName = newString.getText().toString();
+                        if(finalNewRestaurantName.equals("")){
+                            Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
+                        }else {
                         firebaseDatabase.child("RestaurantName").setValue(finalNewRestaurantName);
-                        restaurantName.setText(finalNewRestaurantName);
+                            Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        }
+
                         break;
                     case "phone":
                         String finalNewphone = newString.getText().toString();
+                        if(finalNewphone.equals("")){
+                            Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
+                        }else {
                         firebaseDatabase.child("Phone").setValue(finalNewphone);
-                        phone.setText(finalNewphone);
+                            Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
                 dialog.dismiss();
@@ -240,12 +261,10 @@ public class AboutUs extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE && resultCode != 0 ){
+        if(requestCode == PICK_IMAGE && resultCode != 0 && data != null){
             imageUri=data.getData();
-            if (imageUri != null){
             restaurantlogo.setImageURI(imageUri);
             UploadImg();}
-        }
     }
 
     private void UploadImg() {

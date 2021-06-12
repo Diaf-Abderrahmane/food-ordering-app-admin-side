@@ -51,7 +51,7 @@ public class Settings extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_settings, container, false);
+        View view= inflater.inflate(R.layout.settings, container, false);
         sendNotification =(LinearLayout) view.findViewById(R.id.SendNotification);
         emailEdit =(LinearLayout) view.findViewById(R.id.EmailEdit);
         passwordEdit =(LinearLayout) view.findViewById(R.id.PasswordEdit);
@@ -142,7 +142,7 @@ public class Settings extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE ){
+        if(requestCode == PICK_IMAGE && resultCode !=0 && data != null){
             imageUri=data.getData();
             restaurantImg.setImageURI(imageUri);
             UploadImg();
