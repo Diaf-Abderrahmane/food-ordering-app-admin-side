@@ -30,13 +30,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Sign_up extends AppCompatActivity {
     private TextView register;
-    private TextInputLayout username, email, password, confirmPassword;
+    private TextInputLayout email, password, confirmPassword;
     private Button signUpBtn,toLogin;
     private FirebaseAuth fAuth;
     private FirebaseDatabase fireb;
     private DatabaseReference racine;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    private TextWatcher loginTextWatcher = new TextWatcher() {
+
+    private TextWatcher SignUpTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -82,6 +83,9 @@ public class Sign_up extends AppCompatActivity {
         awesomeValidation.addValidation(this,R.id.email,Patterns.EMAIL_ADDRESS,R.string.invalid_email);
         awesomeValidation.addValidation(this,R.id.password,".{6,}",R.string.invalid_password);
         awesomeValidation.addValidation(this,R.id.confirmPassword,R.id.password,R.string.invalid_confirm_password);
+        email.getEditText().addTextChangedListener(SignUpTextWatcher);
+        password.getEditText().addTextChangedListener(SignUpTextWatcher);
+        confirmPassword.getEditText().addTextChangedListener(SignUpTextWatcher);
 
         if (fAuth.getCurrentUser() != null) {
             startActivity(new Intent(Sign_up.this,Menu.class));
