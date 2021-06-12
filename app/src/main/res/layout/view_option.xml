@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
         app:cardElevation="3dp"
-        android:outlineSpotShadowColor="@color/primaryColor"
-        android:outlineAmbientShadowColor="@color/primaryColor"
+        android:outlineSpotShadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
         app:cardUseCompatPadding="true"
         app:cardPreventCornerOverlap="false">
         <LinearLayout
