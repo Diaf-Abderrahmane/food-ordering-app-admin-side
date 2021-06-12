@@ -91,13 +91,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_email1"></ImageView>
+                        android:background="@drawable/ic_baseline_email"></ImageView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email Edit"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                 </LinearLayout>
@@ -124,13 +124,13 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_key1"></ImageView>
+                        android:background="@drawable/ic_baseline_key"></ImageView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Password Edit"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Send Notification"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="About Us"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -238,7 +238,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Exit"
-            android:textColor="#000000"
+            android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
     </LinearLayout>
 

@@ -48,7 +48,7 @@
                     android:textSize="13dp"
                     android:textStyle="bold"
                     android:lines="2"
-                    android:textColor="@color/eblack"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/opensans_regular"
                     android:text="Description"/>
                 <TextView

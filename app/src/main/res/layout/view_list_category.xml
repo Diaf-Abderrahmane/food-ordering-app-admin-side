@@ -14,7 +14,7 @@
         android:background="@drawable/bg_view_list_category"
         android:textSize="16dp"
         android:textStyle="bold"
-        android:textColor="@color/eblack"
+        android:textColor="@color/black"
         android:fontFamily="monospace"
         android:text="Name"/>
 
