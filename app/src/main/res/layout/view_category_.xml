@@ -10,16 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal">
-
         <TextView
             android:id="@+id/CategoryName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:fontFamily="monospace"
+            android:fontFamily="@font/opensans_regular"
             android:gravity="center_vertical"
             android:text="Name"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold"/>
         <ImageButton
