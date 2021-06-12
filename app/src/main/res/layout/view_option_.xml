@@ -26,7 +26,7 @@
                 android:textSize="16dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:fontFamily="monospace"
+                android:fontFamily="@font/opensans_regular"
                 android:text="Name"/>
             <TextView
                 android:id="@+id/OptionPrice"
@@ -37,7 +37,7 @@
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:fontFamily="monospace"
+                android:fontFamily="@font/opensans_regular"
                 android:text="Price"/>
             <ImageButton
                 android:id="@+id/OptionQuantityRemove"
@@ -50,7 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="@font/opensans_regular"/>
             <ImageButton
                 android:id="@+id/OptionQuantityAdd"
                 android:layout_width="wrap_content"

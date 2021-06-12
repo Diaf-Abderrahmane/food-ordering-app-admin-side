@@ -86,13 +86,13 @@ public class Qr_Generator extends Fragment {
                                 os.add(AllCategories.get(i).getAllqrOptions().get(j));
                             }
                     if (os.size() > 0) {
+                        VMenu.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
                         int QrStatus = 0;
                         if (PWP.isChecked()) QrStatus = 1;
                         Qr.AddQr(new Qr(r(), QrStatus, os), new Qr.AddQrCode() {
                             @Override
                             public void QrCodeAdded(String id) {
-                                VQR.setVisibility(View.VISIBLE);
-                                VMenu.setVisibility(View.GONE);
 
                                 RGroup.clearCheck();
 
@@ -104,7 +104,8 @@ public class Qr_Generator extends Fragment {
                                 try {
                                     img.setImageBitmap(encodeAsBitmap(id));
                                 } catch (WriterException e) {
-                                    e.printStackTrace();
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    VQR.setVisibility(View.VISIBLE);
                                 }
 
                                 Qr.isQrChanged(id, new Qr.QrCode() {
@@ -222,6 +223,8 @@ public class Qr_Generator extends Fragment {
         }
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(pixels, 0, 512, 0, 0, w, h);
+        progressBar.setVisibility(View.INVISIBLE);
+        VQR.setVisibility(View.VISIBLE);
         return bitmap;
     }
 

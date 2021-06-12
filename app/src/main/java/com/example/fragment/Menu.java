@@ -105,10 +105,6 @@ public class Menu extends Fragment {
                     Refresh();
                     c[0] =true;
                 } else {
-                    /*
-                    progressBar.setVisibility(View.VISIBLE);
-                    VMenu.setVisibility(View.INVISIBLE);
-                    */
                     c[0]=false;
                 }
             }
