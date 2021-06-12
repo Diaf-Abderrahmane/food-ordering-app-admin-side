@@ -23,7 +23,7 @@
         android:layout_height="150dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/topcardviewdsigne"
+        android:background="@drawable/cercle1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
