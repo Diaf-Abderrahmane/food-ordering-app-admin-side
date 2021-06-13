@@ -51,11 +51,11 @@ public class EmailEdit extends AppCompatActivity {
                                             firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(EmailEdit.this, new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(EmailEdit.this, "please check your email for verification before go out", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(EmailEdit.this, "please check your email for verification before go out", Toast.LENGTH_LONG).show();
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(EmailEdit.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EmailEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });

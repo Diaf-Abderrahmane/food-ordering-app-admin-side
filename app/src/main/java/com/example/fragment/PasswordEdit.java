@@ -46,7 +46,7 @@ public class PasswordEdit extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             Toast.makeText(PasswordEdit.this, "Password Updated", Toast.LENGTH_SHORT).show();
                                         }else{
-                                            Toast.makeText(PasswordEdit.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(PasswordEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
                                         }
                                     }

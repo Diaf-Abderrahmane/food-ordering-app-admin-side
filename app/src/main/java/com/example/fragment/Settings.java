@@ -59,6 +59,7 @@ public class Settings extends Fragment {
         signOut =(LinearLayout) view.findViewById(R.id.SignOut);
         restaurantImg =(ImageView) view.findViewById(R.id.RestaurantImg);
         progressBar = (ProgressBar) view.findViewById(R.id.LogoProgress);
+        progressBar.getIndeterminateDrawable().setColorFilter(0xEF7505, android.graphics.PorterDuff.Mode.MULTIPLY);
 
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
