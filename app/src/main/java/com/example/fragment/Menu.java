@@ -123,8 +123,6 @@ public class Menu extends Fragment {
                     smoothScroller.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                     SelectCategory(CategoryList[p[0]]);
-                }else if(CPosition!=-1){
-                    recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                 }
                 position[0] = p[0];
             }
@@ -556,6 +554,7 @@ public class Menu extends Fragment {
                             CPosition=position;
                             SelectCategory(viewHolder2.getCategoryName());
                             smoothScroller.setTargetPosition(position);
+                            recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                             recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
                         }
                     });
