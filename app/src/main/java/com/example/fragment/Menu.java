@@ -59,6 +59,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Menu extends Fragment {
 
+    int CPosition=-1;
     ArrayList<Category> AllCategories;
     RecyclerView.SmoothScroller smoothScroller;
     CustomAdapter adapter;
@@ -117,10 +118,14 @@ public class Menu extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 p[0] = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                if (position[0] != p[0]){
+                if(p[0]==CPosition) CPosition=-1;
+                if (position[0] != p[0] && CPosition==-1){
                     smoothScroller.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                     SelectCategory(CategoryList[p[0]]);
+                }else if(CPosition==-1){
+                    smoothScroller.setTargetPosition(CPosition);
+                    recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                 }
                 position[0] = p[0];
             }
@@ -549,6 +554,7 @@ public class Menu extends Fragment {
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            CPosition=position;
                             SelectCategory(viewHolder2.getCategoryName());
                             smoothScroller.setTargetPosition(position);
                             recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
