@@ -111,6 +111,7 @@ public class Menu extends Fragment {
 
         final int[] position = {0};
         final int[] p = {0};
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {

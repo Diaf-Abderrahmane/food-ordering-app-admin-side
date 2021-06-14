@@ -9,6 +9,7 @@
         </shape>
     </item>
     <!-- Background -->
+
     <item>
         <shape>
             <solid android:color="#606060" />
