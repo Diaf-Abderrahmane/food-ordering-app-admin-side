@@ -62,6 +62,7 @@ public class Menu extends Fragment {
     int CPosition=-1;
     ArrayList<Category> AllCategories;
     RecyclerView.SmoothScroller smoothScroller;
+    RecyclerView.SmoothScroller smoothScroller2;
     CustomAdapter adapter;
     CustomAdapter adapter2;
     RecyclerView recyclerView;
@@ -99,6 +100,11 @@ public class Menu extends Fragment {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
+        smoothScroller2 = new LinearSmoothScroller(getActivity()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
 
         progressBar=view.findViewById(R.id.progressBar);
         VMenu=view.findViewById(R.id.VMenu);
@@ -118,12 +124,12 @@ public class Menu extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 p[0] = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                if(p[0]==CPosition) CPosition=-1;
                 if (position[0] != p[0] && CPosition==-1){
-                    smoothScroller.setTargetPosition(p[0]);
-                    recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
+                    smoothScroller2.setTargetPosition(p[0]);
+                    recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                     SelectCategory(CategoryList[p[0]]);
                 }
+                if(p[0]==CPosition) CPosition=-1;
                 position[0] = p[0];
             }
         });
@@ -553,8 +559,9 @@ public class Menu extends Fragment {
                         public void onClick(View v) {
                             CPosition=position;
                             SelectCategory(viewHolder2.getCategoryName());
+                            smoothScroller2.setTargetPosition(position);
+                            recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                             smoothScroller.setTargetPosition(position);
-                            recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller);
                             recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
                         }
                     });
