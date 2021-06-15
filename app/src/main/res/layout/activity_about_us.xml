@@ -35,7 +35,7 @@
                 android:id="@+id/view5"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.2"
                 app:layout_constraintHorizontal_bias="1.0"

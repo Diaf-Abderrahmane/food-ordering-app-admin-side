@@ -22,7 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class WorkTime extends AppCompatActivity {
     int minuteTime, hourTime;
+    String UminuteTime, UhourTime;
     int minute, hour;
+    String Uminute, Uhour;
     String StrfromTime,StrtoTime;
     Spinner fromDay,toDay;
     TextView fromTime,toTime;
@@ -77,6 +79,7 @@ public class WorkTime extends AppCompatActivity {
                             break;
 
                     }
+
                     toTime.setText(StrtoTime);
                     fromTime.setText(StrfromTime);
 
@@ -92,12 +95,21 @@ public class WorkTime extends AppCompatActivity {
                 TimePickerDialog.OnTimeSetListener onTimeSetListener1 = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int sHour, int sMinute) {
-                        hour = sHour;
+                         hour = sHour;
                         minute =sMinute;
+                        if(hour>00 && hour<=9  ) {
+                            Uhour = "0"+String.valueOf(hour);}
+                        else if(hour==00){
+                            Uhour="00";}
+                        else { Uhour=String.valueOf(hour);}
+                         if (minute >00 && minute <= 9) {
+                             Uminute="0"+String.valueOf(Uminute);}
+                         else if(minute==00){
+                             Uminute="00";}
+                         else { Uminute=String.valueOf(minute);}
 
-                        fromTime.setText((hour +":"+ minute).toString());
-
-                    }
+                        fromTime.setText(Uhour + ":"+ Uminute);
+                        }
                 };
                 TimePickerDialog timePickerDialog1 = new TimePickerDialog(WorkTime.this, onTimeSetListener1, hourTime, minuteTime,true);
                 timePickerDialog1.setTitle("Select Time");
@@ -113,9 +125,19 @@ public class WorkTime extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int sHour, int sMinute) {
                         hourTime = sHour;
                         minuteTime =sMinute;
-                        toTime.setText(String.valueOf(hourTime+":"+minuteTime));
+                        if(hourTime>00 && hourTime<=9  ) {
+                                UhourTime = "0"+String.valueOf(hourTime);}
+                        else if (hourTime==.0){
+                            UhourTime = "00";}
+                        else { UhourTime=String.valueOf(hourTime);}
 
-                    }
+                        if (minuteTime >00 && minuteTime <= 9) {
+                                UminuteTime="0"+String.valueOf(Uminute);}
+                        else if(minuteTime==00){
+                            UminuteTime="00";
+                        } else { UminuteTime=String.valueOf(minuteTime);}
+
+                        toTime.setText(UhourTime + ":" +UminuteTime); }
                 };
                 TimePickerDialog timePickerDialog = new TimePickerDialog(WorkTime.this, onTimeSetListener, hourTime, minuteTime,true);
                 timePickerDialog.setTitle("Select Time");
@@ -126,8 +148,8 @@ public class WorkTime extends AppCompatActivity {
         newEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseDatabase.child("FromTime").setValue(String.valueOf(hour)+":"+String.valueOf(minute));
-                firebaseDatabase.child("ToTime").setValue(String.valueOf(hourTime)+":"+String.valueOf(minuteTime));
+                firebaseDatabase.child("FromTime").setValue(Uhour+":"+Uminute);
+                firebaseDatabase.child("ToTime").setValue(UhourTime+":"+UminuteTime);
                 firebaseDatabase.child("ToDay").setValue(todayselect);
                 firebaseDatabase.child("FromDay").setValue(fromdayselect);
                 Toast.makeText(WorkTime.this, "TimeWork is Updated", Toast.LENGTH_SHORT).show();
