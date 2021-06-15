@@ -46,6 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AboutUs extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
+    private ImageView back;
     Uri imageUri;
     ProgressBar progressBar ;
     CircleImageView restaurantlogo;
@@ -66,7 +67,18 @@ public class AboutUs extends AppCompatActivity {
         phone = (CardView) findViewById(R.id.Phone);
         workTime = (CardView) findViewById(R.id.WorkTime);
         restaurantlogo = (CircleImageView) findViewById(R.id.Logo);
+        back = (ImageView)findViewById(R.id.back);
         progressBar = (ProgressBar) findViewById(R.id.LogoProgress);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(AboutUs.this, MainActivity.class);
+                intent.putExtra("key", 4);
+                startActivity(intent);
+
+
+            }
+        });
         mImageRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
