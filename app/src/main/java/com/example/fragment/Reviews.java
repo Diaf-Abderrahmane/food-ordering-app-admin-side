@@ -1,18 +1,19 @@
 package com.example.fragment;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,25 +31,32 @@ import java.util.Collections;
 
 public class Reviews extends Fragment {
 
-    private ImageView restopPhoto;
-    private LinearLayout nav;
+    private ImageView restopLogo;
+    private ProgressBar logoProgressBar;
+
+
+    private RecyclerView RvComment;
+    private CommentAdapter commentAdapter;
+    private ArrayList<Comment> listComments;
+    private EditText description;
+    private Button submitDescBtn;
+    final static String COMMENT_KEY = "Comments",DESCRIPTION_KEY = "resto_description";
 
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
-    private RecyclerView RvComment;
-    private CommentAdapter commentAdapter;
-    private ArrayList<Comment> listComments;
-    static String COMMENT_KEY = "Comments";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view =inflater.inflate(R.layout.fragment_reviews, container, false);
-        listComments = new ArrayList<>();
-        RvComment = view.findViewById(R.id.rv_comment);
+        View view =inflater.inflate(R.layout.fragment_reviews, container, false);
+        // if you want to understand more features check client reviews code
+
+        //make activity/fragment scrollable when keyboard is shown
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -56,26 +64,74 @@ public class Reviews extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
 
-        //ini recyclerview
-
-        iniRvComment();
-        restopPhoto = view.findViewById(R.id.resto_img);
-        //Glide.with(this).load(R.drawable.restop).into(restopPhoto);
-
-        return view;
-    }
-  /*  private void gotoActivity(Class<?> cls){
-        nav.setOnClickListener(new View.OnClickListener() {
+        description = view.findViewById(R.id.resto_description);
+        submitDescBtn = view.findViewById(R.id.submit_description_btn);
+        logoProgressBar = view.findViewById(R.id.resto_logo_progress_bar);
+        listComments = new ArrayList<>();
+        RvComment = view.findViewById(R.id.rv_comment);
+        restopLogo = view.findViewById(R.id.resto_logo);
+        // if there is already a description in our database
+        // we should retrieve it and put it in the
+        // description EditText
+        DatabaseReference aboutUsRef = firebaseDatabase.getReference().child("About_Us");
+        aboutUsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),cls);
-                startActivity(intent);
-                getActivity().finish();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists() && snapshot.getChildrenCount()>0){
+                    if(snapshot.hasChild(DESCRIPTION_KEY)){
+                        String desc = snapshot.child(DESCRIPTION_KEY).getValue(String.class);
+                        description.setText(desc);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
-    }*/
+        // if the admin clicks on submit button
+        // then store the description in firebase database
+        submitDescBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aboutUsRef.child(DESCRIPTION_KEY).setValue(description.getText().toString());
+            }
+        });
 
+
+
+        // get the app logo from firebase
+        getLogo();
+
+        //initialize recyclerview
+
+        iniRvComment();
+
+
+        return view;
+    }
+
+    private void getLogo(){
+        DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
+        logoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                restopLogo.setVisibility(View.VISIBLE);
+                logoProgressBar.setVisibility(View.INVISIBLE);
+                String logo = snapshot.child("LogoUrl").getValue(String.class);
+                Glide.with(getActivity()).load(logo).into(restopLogo);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
     private void iniRvComment() {
         RvComment.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -93,7 +149,7 @@ public class Reviews extends Fragment {
 
                 }
                 Collections.reverse(listComments);
-                commentAdapter = new CommentAdapter(getActivity().getApplicationContext(),listComments);
+                commentAdapter = new CommentAdapter(getActivity(),listComments);
                 RvComment.setAdapter(commentAdapter);
 
 
