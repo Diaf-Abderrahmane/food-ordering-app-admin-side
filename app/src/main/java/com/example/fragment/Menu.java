@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -29,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -56,12 +59,16 @@ import static android.app.Activity.RESULT_OK;
 
 public class Menu extends Fragment {
 
+    int CPosition=-1;
     ArrayList<Category> AllCategories;
+    RecyclerView.SmoothScroller smoothScroller;
+    RecyclerView.SmoothScroller smoothScroller2;
     CustomAdapter adapter;
     CustomAdapter adapter2;
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
+    TextView[] CategoryList;
 
     LinearLayout VMenu;
     AlertDialog.Builder alertDialog;
@@ -74,6 +81,8 @@ public class Menu extends Fragment {
     ImageView DialogIUpload;
     ImageView DialogIClear;
 
+    TextView textView0=null;
+
     interface PopUpOptionC{
         void btnClicked(Option option);
     }
@@ -85,6 +94,18 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
          View view =inflater.inflate(R.layout.fragment_menu, container, false);
 
+
+        smoothScroller = new LinearSmoothScroller(getActivity()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller2 = new LinearSmoothScroller(getActivity()) {
+            @Override protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+
         progressBar=view.findViewById(R.id.progressBar);
         VMenu=view.findViewById(R.id.VMenu);
 
@@ -94,6 +115,24 @@ public class Menu extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+
+        final int[] position = {0};
+        final int[] p = {0};
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                p[0] = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                if (position[0] != p[0] && CPosition==-1){
+                    smoothScroller2.setTargetPosition(p[0]);
+                    recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
+                    SelectCategory(CategoryList[p[0]]);
+                }
+                if(p[0]==CPosition) CPosition=-1;
+                position[0] = p[0];
+            }
+        });
 
         final Boolean[] c = {false};
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -113,7 +152,7 @@ public class Menu extends Fragment {
             }
         });
 
-        ImageView btn=view.findViewById(R.id.AddNC);
+        ImageButton btn=view.findViewById(R.id.AddNC);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +175,7 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
+                CategoryList=new TextView[allCategories.size()];
             }
         });
     }
@@ -337,6 +377,21 @@ public class Menu extends Fragment {
 
 
 
+    public void SelectCategory(TextView textView1){
+        if(textView1!=null && textView0!=textView1) {
+            int py = textView1.getPaddingTop();
+            int px = textView1.getPaddingLeft();
+            textView1.setBackgroundResource(R.drawable.bg_view_list_category_s);
+            textView1.setTextColor(ContextCompat.getColor(getActivity(), R.color.white));
+            textView1.setPadding(px, py, px, py);
+            if (textView0 != null) {
+                textView0.setBackgroundResource(R.drawable.bg_view_list_category);
+                textView0.setTextColor(ContextCompat.getColor(getActivity(), R.color.eblack));
+                textView0.setPadding(px, py, px, py);
+            }
+            textView0 = textView1;
+        }
+    }
 
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private int ViewType=0;
@@ -401,6 +456,7 @@ public class Menu extends Fragment {
             public TextView getCategoryName() {
                 return CategoryName;
             }
+
         }
 
         public CustomAdapter() {
@@ -493,11 +549,20 @@ public class Menu extends Fragment {
                     break;
                 case 2:
                     ViewHolder2 viewHolder2=(ViewHolder2) Holder;
+                    CategoryList[position]=viewHolder2.getCategoryName();
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
+                    if(position==0){
+                        SelectCategory(viewHolder2.getCategoryName());
+                    }
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            recyclerView.getLayoutManager().smoothScrollToPosition(recyclerView,new RecyclerView.State(), position);
+                            CPosition=position;
+                            SelectCategory(viewHolder2.getCategoryName());
+                            smoothScroller2.setTargetPosition(position);
+                            recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
+                            smoothScroller.setTargetPosition(position);
+                            recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
                         }
                     });
                     break;

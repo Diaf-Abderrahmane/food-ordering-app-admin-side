@@ -10,15 +10,15 @@
     android:background="#fff">
 
     <ImageView
-        android:id="@+id/resto_img"
+        android:id="@+id/resto_logo"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
+        android:background="@drawable/reviewslogobackground"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
 
@@ -26,21 +26,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:lineSpacingExtra="4dp"
         android:text="ResTop"
-        android:textColor="@android:color/black"
-        android:textSize="22sp"
+        android:fontFamily="cursive"
+        android:textAlignment="center"
+        android:textColor="@color/primaryColor"
+        android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resto_img" />
+        app:layout_constraintTop_toBottomOf="@+id/resto_logo" />
+    <ProgressBar
+        android:id="@+id/resto_logo_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="@+id/resto_logo"
+        app:layout_constraintEnd_toEndOf="@+id/resto_logo"
+        app:layout_constraintStart_toStartOf="@+id/resto_logo"
+        app:layout_constraintTop_toTopOf="@+id/resto_logo" />
 
     <View
-        android:background="#2e2e2e"
+        android:background="@color/primaryColor"
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
@@ -55,33 +65,66 @@
         app:layout_constraintTop_toBottomOf="@+id/resto_name" />
 
 
-    <EditText
-
-        android:textColor="#373737"
-        android:lineSpacingExtra="8dp"
-        android:id="@+id/resto_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="this restaurant is open to all client every day from 11am to 11pm, except saturday."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resto_description"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_card"/>
 
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/description_card"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/submit_description_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+
+                android:background="@drawable/edit_text_button_style"
+                android:text="SUBMIT"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/resto_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/resto_description" />
+
+            <EditText
+
+                android:id="@+id/resto_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+
+                android:background="@drawable/backgrounddescription"
+                android:hint="write a description"
+                android:lineSpacingExtra="8dp"
+                android:textColor="#373737"
+                android:fontFamily="roboto"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/submit_description_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
