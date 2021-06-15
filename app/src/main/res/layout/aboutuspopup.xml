@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:background="@drawable/cercle1"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/NewString0"
@@ -60,7 +60,7 @@
         <TextView
             android:id="@+id/Currenttext"
             android:layout_width="match_parent"
-            android:layout_height="91dp"
+            android:layout_height="80dp"
             android:layout_margin="5dp"
             android:padding="15dp"
             android:text=""
@@ -110,7 +110,7 @@
         android:id="@+id/NewString0"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="300dp"
-        android:layout_height="87dp"
+        android:layout_height="100dp"
         android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:hint="New"
