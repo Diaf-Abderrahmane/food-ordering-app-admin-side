@@ -16,7 +16,11 @@
         <activity android:name=".ForgotPassword"></activity>
         <activity android:name=".Login" />
         <activity android:name=".Sign_up" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:windowSoftInputMode="adjustResize"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".AboutUs" />
         <activity android:name=".PasswordEdit" />
         <activity android:name=".EmailEdit" />

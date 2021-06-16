@@ -55,7 +55,7 @@ public class Reviews extends Fragment {
         // if you want to understand more features check client reviews code
 
         //make activity/fragment scrollable when keyboard is shown
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
 
