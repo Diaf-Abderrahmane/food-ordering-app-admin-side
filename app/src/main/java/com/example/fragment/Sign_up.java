@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Sign_up extends AppCompatActivity {
-    private TextView register;
+    private TextView res,top,gettingStarted,toContinue;
     private TextInputLayout email, password, confirmPassword;
     private Button signUpBtn,toLogin;
     private FirebaseAuth fAuth;
@@ -71,7 +71,10 @@ public class Sign_up extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        register = findViewById(R.id.register);
+        res = findViewById(R.id.res);
+        top = findViewById(R.id.top);
+        gettingStarted = findViewById(R.id.gettingStarted);
+        toContinue = findViewById(R.id.toContinue);
         toLogin = findViewById(R.id.toLogin);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
