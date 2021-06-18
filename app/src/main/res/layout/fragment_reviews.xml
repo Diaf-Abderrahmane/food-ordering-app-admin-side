@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Reviews"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Reviews"
+    android:background="#fff">
+<androidx.constraintlayout.widget.ConstraintLayout
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#fff">
 
     <ImageView
@@ -14,7 +19,10 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:background="@drawable/reviewslogobackground"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:maxHeight="48dp"
+        android:maxWidth="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +77,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_comment"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +119,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-
+                android:imeOptions="actionDone"
                 android:background="@drawable/backgrounddescription"
                 android:hint="write a description"
                 android:lineSpacingExtra="8dp"
@@ -128,3 +136,4 @@
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
