@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -95,6 +96,7 @@ public class Reviews extends Fragment {
             @Override
             public void onClick(View v) {
                 aboutUsRef.child(DESCRIPTION_KEY).setValue(description.getText().toString());
+                description.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
 
