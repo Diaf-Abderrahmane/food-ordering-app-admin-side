@@ -13,12 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResTopAdminWF">
-        <activity android:name=".ForgotPassword"></activity>
+        <activity android:name=".ForgotPassword"/>
+        <activity android:name=".WorkTime"/>
         <activity android:name=".Login" />
         <activity android:name=".Sign_up" />
-        <activity android:name=".MainActivity" >
-
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".AboutUs" />
         <activity android:name=".PasswordEdit" />
         <activity android:name=".EmailEdit" />

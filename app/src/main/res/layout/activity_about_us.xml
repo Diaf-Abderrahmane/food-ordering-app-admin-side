@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="#f3f4f8"
     tools:context=".AboutUs">
 
     <ScrollView
@@ -35,7 +35,7 @@
                 android:id="@+id/view5"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/primaryColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.2"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -118,9 +118,12 @@
 
 
             <LinearLayout
-                android:layout_width="374dp"
-                android:layout_height="460dp"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical"
                 android:weightSum="6"
                 app:layout_constraintBottom_toTopOf="@+id/SignOut"

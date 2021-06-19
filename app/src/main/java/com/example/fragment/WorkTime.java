@@ -58,12 +58,10 @@ public class WorkTime extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 todayselect = parent.getItemAtPosition(position).toString();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
