@@ -23,6 +23,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,7 +98,6 @@ public class Menu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          View view =inflater.inflate(R.layout.fragment_menu, container, false);
-
 
         smoothScroller = new LinearSmoothScroller(getActivity()) {
             @Override protected int getVerticalSnapPreference() {
@@ -200,6 +202,18 @@ public class Menu extends Fragment {
         dialog=alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+        com.google.android.material.textfield.TextInputLayout CN= view.findViewById(R.id.c_name);
+        DialogCategoryName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogCategoryName.getText().toString().isEmpty()) CN.setError("Please enter category name");
+                else CN.setError("");
+            }
+        });
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,6 +241,8 @@ public class Menu extends Fragment {
                             }
                         });
                     }
+                }else{
+                    CN.setError("Please enter category name");
                 }
             }
         });
@@ -267,6 +283,46 @@ public class Menu extends Fragment {
         dialog.show();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        com.google.android.material.textfield.TextInputLayout ON= view.findViewById(R.id.o_name);
+        DialogOptionName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionName.getText().toString().isEmpty()) ON.setError("Please enter option name");
+                else ON.setError("");
+            }
+        });
+
+        com.google.android.material.textfield.TextInputLayout OP= view.findViewById(R.id.o_price);
+        DialogOptionPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionPrice.getText().toString().isEmpty()) OP.setError("Please enter option price");
+                else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
+                else OP.setError("");
+            }
+        });
+
+        com.google.android.material.textfield.TextInputLayout OD= view.findViewById(R.id.o_description);
+        DialogOptionDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionDescription.getText().toString().isEmpty()) OD.setError("Please enter option description");
+                else OD.setError("");
+            }
+        });
+
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,6 +349,11 @@ public class Menu extends Fragment {
                             }
                         });
                     }
+                }else{
+                    if(DialogOptionName.getText().toString().isEmpty())ON.setError("Please enter option name");
+                    if(DialogOptionPrice.getText().toString().isEmpty())OP.setError("Please enter option price");
+                    else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
+                    if(DialogOptionDescription.getText().toString().isEmpty())OD.setError("Please enter option description");
                 }
             }
         });
