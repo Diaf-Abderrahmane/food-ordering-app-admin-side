@@ -83,6 +83,8 @@ public class Menu extends Fragment {
 
     TextView textView0=null;
 
+    ImageButton btn;
+    boolean bBtn=false;
     interface PopUpOptionC{
         void btnClicked(Option option);
     }
@@ -152,11 +154,11 @@ public class Menu extends Fragment {
             }
         });
 
-        ImageButton btn=view.findViewById(R.id.AddNC);
+        btn=view.findViewById(R.id.AddNC);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopUpCategory(-1);
+                if(bBtn) PopUpCategory(-1);
             }
         });
 
@@ -175,6 +177,10 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
+                if(!bBtn){
+                    bBtn=true;
+                    btn.setImageResource(R.drawable.ic_baseline_library_add);
+                }
             }
         });
     }
