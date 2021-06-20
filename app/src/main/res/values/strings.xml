@@ -12,6 +12,7 @@
 
     //--- Days -----//
     <string-array name="Days">
+        <item name="Chose a day">Chose a day</item>
         <item name="Saturday">Saturday</item>
         <item name="Sunday">Sunday</item>
         <item name="Monday">Monday</item>

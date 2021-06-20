@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 public class WorkTime extends AppCompatActivity {
     int minuteTime, hourTime;
@@ -31,6 +32,7 @@ public class WorkTime extends AppCompatActivity {
     Button newEdit,cancel;
     String todayselect,fromdayselect;
     DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
+
     Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,32 @@ public class WorkTime extends AppCompatActivity {
          newEdit = (Button) findViewById(R.id.NewEdit);
          fromDay =(Spinner) findViewById(R.id.FromDayspinner);
          toDay =(Spinner) findViewById(R.id.ToDayspinner);
+        firebaseDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap:snapshot.getChildren()){
+                    switch (snap.getKey()){
+                        case "FromDay":
+                            fromDay.setSelection(getIndex(fromDay,snap.getValue().toString()));
+                            break;
+                        case "ToDay":
+                            toDay.setSelection(getIndex(toDay,snap.getValue().toString()));
+                            break;
+                        case "FromTime":
+                            fromTime.setText(snap.getValue().toString());
+                            break;
+                        case "ToTime":
+                            toTime.setText(snap.getValue().toString());
+                            break;
+                    }
+
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
          fromDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -64,29 +92,7 @@ public class WorkTime extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        firebaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (snap.getKey()){
-                        case "FromTime":
-                            StrfromTime =snap.getValue().toString();
-                            break;
-                        case "ToTime":
-                            StrtoTime=snap.getValue().toString();
-                            break;
 
-                    }
-
-                    toTime.setText(StrtoTime);
-                    fromTime.setText(StrfromTime);
-
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
          fromTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,5 +172,13 @@ public class WorkTime extends AppCompatActivity {
             }
         });
 
+    }
+    public int getIndex(Spinner spinner,String string){
+        for(int i=0 ;i<spinner.getCount();i++){
+            if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(string)){
+                return i;
+            }
+        }
+        return 0;
     }
 }
