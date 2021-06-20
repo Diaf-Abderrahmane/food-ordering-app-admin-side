@@ -1,7 +1,6 @@
 package com.example.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,15 +17,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-    private TextView authen,login,desc;
+    private TextView res,top,toContinue,login;
     private TextInputLayout email, password;
     private Button loginBtn,toRegister,forgotPassword;
     private FirebaseAuth fAuth;
+    private boolean b=true;
+    private DatabaseReference ref;
     private TextWatcher loginTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -58,6 +62,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        res = findViewById(R.id.res);
+        top = findViewById(R.id.top);
+        toContinue = findViewById(R.id.toContinue);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         fAuth = FirebaseAuth.getInstance();
@@ -77,7 +84,7 @@ public class Login extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this,ResetPassword1.class));
+                startActivity(new Intent(Login.this, ForgotPassword.class));
 
             }
         });
@@ -88,16 +95,21 @@ public class Login extends AppCompatActivity {
                     String vemail = email.getEditText().getText().toString();
                     String vpassword = password.getEditText().getText().toString();
 
-
+                    if (b)
                     fAuth.signInWithEmailAndPassword(vemail, vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Login.this, MainActivity.class));
+                                b=false;
+                                ref = FirebaseDatabase.getInstance().getReference().child("Admins").child(fAuth.getCurrentUser().getUid());
+                                ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (task.isSuccessful() && (task.getResult().getChildrenCount()>0))  startActivity(new Intent(Login.this, MainActivity.class));
+                                    }
+                                });
                             } else {
                                 Toast.makeText(Login.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                //startActivity(new Intent(LOG.this,REG.class));
                             }
                         }
                     });
@@ -119,7 +131,7 @@ public class Login extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login.this, ResetPassword1.class));
+                startActivity(new Intent(Login.this, ForgotPassword.class));
             }
         });
     }

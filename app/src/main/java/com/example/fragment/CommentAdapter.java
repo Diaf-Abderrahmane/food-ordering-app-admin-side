@@ -1,10 +1,14 @@
 package com.example.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.format.DateFormat;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -48,7 +52,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         ///////////////////////////
         getUserPhoto(holder,position);
-        holder.name.setText(mData.get(position).getUname());
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mData.get(position).getKey());
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                holder.name.setText(snapshot.child("Username").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         holder.content.setText(mData.get(position).getContent());
         holder.date.setText(timestampToString((long) mData.get(position).getTimestamp()));
         holder.commentRatingShow.setRating((int) mData.get(position).getRating());
@@ -62,7 +78,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 notifyItemRangeChanged(position, mData.size());
             }
         });
+        holder.replyComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.Theme_AppCompat_Light_Dialog_Alert));
+                final View replyLayout = LayoutInflater.from(mContext).inflate(R.layout.add_reply,null);
+                builder.setView(replyLayout);
+                builder.setTitle("Admin reply");
+                EditText commentReply = replyLayout.findViewById(R.id.comment_reply_edittext);
+                commentReply.setText(mData.get(position).getReply());
 
+                builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference().child(Reviews.COMMENT_KEY).child(mData.get(position).getKey()).child("reply");
+                        commentRef.setValue(commentReply.getText().toString());
+
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            }
+        });
     }
 
     @Override
@@ -71,7 +110,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder{
-        ImageView userPhoto,removeComment;
+        ImageView userPhoto,removeComment,replyComment;
         TextView name,content,date;
         RatingBar commentRatingShow;
 
@@ -83,6 +122,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             date = itemView.findViewById(R.id.comment_date);
             commentRatingShow = itemView.findViewById(R.id.comment_ratingbar);
             removeComment = itemView.findViewById(R.id.comment_remove);
+            replyComment = itemView.findViewById(R.id.comment_add_reply);
         }
     }
     private void getUserPhoto(@NonNull CommentViewHolder holder, int position) {

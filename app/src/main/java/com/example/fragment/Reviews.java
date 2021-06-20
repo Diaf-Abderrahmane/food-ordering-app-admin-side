@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,8 +55,6 @@ public class Reviews extends Fragment {
         View view =inflater.inflate(R.layout.fragment_reviews, container, false);
         // if you want to understand more features check client reviews code
 
-        //make activity/fragment scrollable when keyboard is shown
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
 
@@ -97,6 +96,7 @@ public class Reviews extends Fragment {
             @Override
             public void onClick(View v) {
                 aboutUsRef.child(DESCRIPTION_KEY).setValue(description.getText().toString());
+                description.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
 
@@ -121,7 +121,7 @@ public class Reviews extends Fragment {
                 restopLogo.setVisibility(View.VISIBLE);
                 logoProgressBar.setVisibility(View.INVISIBLE);
                 String logo = snapshot.child("LogoUrl").getValue(String.class);
-                Glide.with(getActivity()).load(logo).into(restopLogo);
+                Glide.with(restopLogo.getContext()).load(logo).into(restopLogo);
 
             }
 

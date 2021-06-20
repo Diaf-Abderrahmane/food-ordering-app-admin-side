@@ -15,8 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ResetPassword1 extends AppCompatActivity {
-    private TextView resetPassword,resetInst;
+public class ForgotPassword extends AppCompatActivity {
+    private TextView resetPassword,res,top,resetInst;
     private Button resetPasswordBtn;
     private TextInputLayout email;
     FirebaseAuth auth;
@@ -26,6 +26,8 @@ public class ResetPassword1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password1);
         resetPassword = findViewById(R.id.resetPassword);
+        res = findViewById(R.id.Res);
+        top = findViewById(R.id.Top);
         resetInst = findViewById(R.id.resetInst);
         email = findViewById(R.id.email);
         resetPasswordBtn = findViewById(R.id.resetPasswordBtn);
@@ -53,9 +55,9 @@ public class ResetPassword1 extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(ResetPassword1.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPassword.this, "Check your email to reset your password", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ResetPassword1.this, "Try again! something went wrong.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPassword.this, "Try again! something went wrong.", Toast.LENGTH_SHORT).show();
                 }
 
             }
