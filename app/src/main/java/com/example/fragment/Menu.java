@@ -23,6 +23,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +71,7 @@ public class Menu extends Fragment {
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
-    TextView[] CategoryList;
+    ArrayList<TextView> CategoryList=new ArrayList<TextView>();
 
     LinearLayout VMenu;
     AlertDialog.Builder alertDialog;
@@ -83,6 +86,8 @@ public class Menu extends Fragment {
 
     TextView textView0=null;
 
+    ImageButton btn;
+    boolean bBtn=false;
     interface PopUpOptionC{
         void btnClicked(Option option);
     }
@@ -93,7 +98,6 @@ public class Menu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          View view =inflater.inflate(R.layout.fragment_menu, container, false);
-
 
         smoothScroller = new LinearSmoothScroller(getActivity()) {
             @Override protected int getVerticalSnapPreference() {
@@ -127,7 +131,7 @@ public class Menu extends Fragment {
                 if (position[0] != p[0] && CPosition==-1){
                     smoothScroller2.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
-                    SelectCategory(CategoryList[p[0]]);
+                    SelectCategory(CategoryList.get(p[0]));
                 }
                 if(p[0]==CPosition) CPosition=-1;
                 position[0] = p[0];
@@ -152,11 +156,11 @@ public class Menu extends Fragment {
             }
         });
 
-        ImageButton btn=view.findViewById(R.id.AddNC);
+        btn=view.findViewById(R.id.AddNC);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopUpCategory(-1);
+                if(bBtn) PopUpCategory(-1);
             }
         });
 
@@ -175,7 +179,10 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
-                CategoryList=new TextView[allCategories.size()];
+                if(!bBtn){
+                    bBtn=true;
+                    btn.setImageResource(R.drawable.ic_baseline_library_add);
+                }
             }
         });
     }
@@ -195,6 +202,18 @@ public class Menu extends Fragment {
         dialog=alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+        com.google.android.material.textfield.TextInputLayout CN= view.findViewById(R.id.c_name);
+        DialogCategoryName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogCategoryName.getText().toString().isEmpty()) CN.setError("Please enter category name");
+                else CN.setError("");
+            }
+        });
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,13 +234,15 @@ public class Menu extends Fragment {
                             @Override
                             public void onDataChange() {
                                 AllCategories.add(category);
-                                adapter.notifyItemInserted(AllCategories.size());
+                                adapter.notifyItemInserted(AllCategories.size()-1);
                                 adapter.notifyItemRangeChanged(AllCategories.size()-1, 1);
-                                adapter2.notifyItemInserted(AllCategories.size());
+                                adapter2.notifyItemInserted(AllCategories.size()-1);
                                 adapter2.notifyItemRangeChanged(AllCategories.size()-1, 1);
                             }
                         });
                     }
+                }else{
+                    CN.setError("Please enter category name");
                 }
             }
         });
@@ -262,6 +283,46 @@ public class Menu extends Fragment {
         dialog.show();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        com.google.android.material.textfield.TextInputLayout ON= view.findViewById(R.id.o_name);
+        DialogOptionName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionName.getText().toString().isEmpty()) ON.setError("Please enter option name");
+                else ON.setError("");
+            }
+        });
+
+        com.google.android.material.textfield.TextInputLayout OP= view.findViewById(R.id.o_price);
+        DialogOptionPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionPrice.getText().toString().isEmpty()) OP.setError("Please enter option price");
+                else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
+                else OP.setError("");
+            }
+        });
+
+        com.google.android.material.textfield.TextInputLayout OD= view.findViewById(R.id.o_description);
+        DialogOptionDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(DialogOptionDescription.getText().toString().isEmpty()) OD.setError("Please enter option description");
+                else OD.setError("");
+            }
+        });
+
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,6 +349,11 @@ public class Menu extends Fragment {
                             }
                         });
                     }
+                }else{
+                    if(DialogOptionName.getText().toString().isEmpty())ON.setError("Please enter option name");
+                    if(DialogOptionPrice.getText().toString().isEmpty())OP.setError("Please enter option price");
+                    else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
+                    if(DialogOptionDescription.getText().toString().isEmpty())OD.setError("Please enter option description");
                 }
             }
         });
@@ -549,7 +615,9 @@ public class Menu extends Fragment {
                     break;
                 case 2:
                     ViewHolder2 viewHolder2=(ViewHolder2) Holder;
-                    CategoryList[position]=viewHolder2.getCategoryName();
+                    if(position<CategoryList.size())CategoryList.set(position,viewHolder2.getCategoryName());
+                    else CategoryList.add(viewHolder2.getCategoryName());
+
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
                     if(position==0){
                         SelectCategory(viewHolder2.getCategoryName());

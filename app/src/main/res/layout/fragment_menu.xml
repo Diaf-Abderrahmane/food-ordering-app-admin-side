@@ -52,7 +52,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp"
             android:backgroundTint="@color/primaryColor"
-            android:src="@drawable/ic_baseline_library_add"/>
+            android:src="@drawable/ic_baseline_library_add_"/>
     </LinearLayout>
 
 
