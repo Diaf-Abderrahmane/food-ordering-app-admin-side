@@ -68,7 +68,7 @@ public class Menu extends Fragment {
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
-    TextView[] CategoryList;
+    ArrayList<TextView> CategoryList=new ArrayList<TextView>();
 
     LinearLayout VMenu;
     AlertDialog.Builder alertDialog;
@@ -127,7 +127,7 @@ public class Menu extends Fragment {
                 if (position[0] != p[0] && CPosition==-1){
                     smoothScroller2.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
-                    SelectCategory(CategoryList[p[0]]);
+                    SelectCategory(CategoryList.get(p[0]));
                 }
                 if(p[0]==CPosition) CPosition=-1;
                 position[0] = p[0];
@@ -175,7 +175,6 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
-                CategoryList=new TextView[allCategories.size()];
             }
         });
     }
@@ -215,9 +214,9 @@ public class Menu extends Fragment {
                             @Override
                             public void onDataChange() {
                                 AllCategories.add(category);
-                                adapter.notifyItemInserted(AllCategories.size());
+                                adapter.notifyItemInserted(AllCategories.size()-1);
                                 adapter.notifyItemRangeChanged(AllCategories.size()-1, 1);
-                                adapter2.notifyItemInserted(AllCategories.size());
+                                adapter2.notifyItemInserted(AllCategories.size()-1);
                                 adapter2.notifyItemRangeChanged(AllCategories.size()-1, 1);
                             }
                         });
@@ -549,7 +548,9 @@ public class Menu extends Fragment {
                     break;
                 case 2:
                     ViewHolder2 viewHolder2=(ViewHolder2) Holder;
-                    CategoryList[position]=viewHolder2.getCategoryName();
+                    if(position<CategoryList.size())CategoryList.set(position,viewHolder2.getCategoryName());
+                    else CategoryList.add(viewHolder2.getCategoryName());
+
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
                     if(position==0){
                         SelectCategory(viewHolder2.getCategoryName());
