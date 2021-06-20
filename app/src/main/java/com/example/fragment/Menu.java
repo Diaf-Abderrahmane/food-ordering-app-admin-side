@@ -187,6 +187,24 @@ public class Menu extends Fragment {
         });
     }
 
+    public boolean isExistCategory(String name){
+        boolean b=false;
+        for(int i=0;i<AllCategories.size();i++)
+            if (AllCategories.get(i).getName().equals(name)){
+                b=true;
+                break;
+            }
+        return b;
+    }
+    public boolean isExistOption(String name,int categoryIndex){
+        boolean b=false;
+        for(int i=0;i<AllCategories.get(categoryIndex).getAllOptions().size();i++)
+            if (AllCategories.get(categoryIndex).getAllOptions().get(i).getName().equals(name)){
+                b=true;
+                break;
+            }
+        return b;
+    }
     public void PopUpCategory(int categoryIndex){
         alertDialog=new AlertDialog.Builder(getActivity());
         view=getLayoutInflater().inflate(R.layout.alert_dialog_category,null);
@@ -218,7 +236,11 @@ public class Menu extends Fragment {
             @Override
             public void onClick(View v) {
                 String CategoryName=DialogCategoryName.getText().toString();
-                if(! CategoryName.isEmpty()){
+                if(CategoryName.isEmpty()){
+                    CN.setError("Please enter category name");
+                }else if(isExistCategory(CategoryName)) {
+                    CN.setError("this name already exists");
+                }else{
                     dialog.dismiss();
                     if(categoryIndex!=-1) Category.EditCategoryName(AllCategories.get(categoryIndex).getId(), CategoryName, new Category.CategoriesStatusC() {
                         @Override
@@ -241,8 +263,6 @@ public class Menu extends Fragment {
                             }
                         });
                     }
-                }else{
-                    CN.setError("Please enter category name");
                 }
             }
         });
@@ -327,27 +347,30 @@ public class Menu extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!DialogOptionName.getText().toString().isEmpty() && !DialogOptionPrice.getText().toString().isEmpty() && !DialogOptionDescription.getText().toString().isEmpty()){
-                    dialog.dismiss();
-                    option.setName(DialogOptionName.getText().toString());
-                    option.setPrice(Integer.parseInt(DialogOptionPrice.getText().toString()));
-                    option.setDescription(DialogOptionDescription.getText().toString());
+                    if(isExistOption(DialogOptionName.getText().toString(),categoryIndex)){
+                        ON.setError("this name already exists");
+                    }else {
+                        dialog.dismiss();
+                        option.setName(DialogOptionName.getText().toString());
+                        option.setPrice(Integer.parseInt(DialogOptionPrice.getText().toString()));
+                        option.setDescription(DialogOptionDescription.getText().toString());
 
-                    if(position!=-1){
-                        option.setId(AllCategories.get(categoryIndex).getAllOptions().get(position).getId());
-                        Option.EditOption(AllCategories.get(categoryIndex).getId(), option, new Option.OptionsStatusC() {
-                            @Override
-                            public void onDataChange() {
-                                popUpOptionC.btnClicked(option);
-                            }
-                        });
-                    }
-                    else {
-                        Option.AddOption(AllCategories.get(categoryIndex).getId(), option, new Option.OptionsStatusC() {
-                            @Override
-                            public void onDataChange() {
-                                popUpOptionC.btnClicked(option);
-                            }
-                        });
+                        if (position != -1) {
+                            option.setId(AllCategories.get(categoryIndex).getAllOptions().get(position).getId());
+                            Option.EditOption(AllCategories.get(categoryIndex).getId(), option, new Option.OptionsStatusC() {
+                                @Override
+                                public void onDataChange() {
+                                    popUpOptionC.btnClicked(option);
+                                }
+                            });
+                        } else {
+                            Option.AddOption(AllCategories.get(categoryIndex).getId(), option, new Option.OptionsStatusC() {
+                                @Override
+                                public void onDataChange() {
+                                    popUpOptionC.btnClicked(option);
+                                }
+                            });
+                        }
                     }
                 }else{
                     if(DialogOptionName.getText().toString().isEmpty())ON.setError("Please enter option name");
