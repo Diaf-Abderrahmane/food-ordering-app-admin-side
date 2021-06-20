@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,7 @@ public class Settings extends Fragment {
     Uri imageUri;
     Intent intent;
     ProgressBar progressBar ;
+    private FirebaseAuth fAuth= FirebaseAuth.getInstance();
     DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Settings").child("RestaurantImgUrl");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Settings/");
 
@@ -124,6 +126,7 @@ public class Settings extends Fragment {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fAuth.signOut();
                 intent = new Intent(getActivity(),Login.class);
                 startActivity(intent);
                 getActivity().finish();
