@@ -349,7 +349,7 @@ public class Menu extends Fragment {
                 if(!DialogOptionName.getText().toString().isEmpty() && !DialogOptionPrice.getText().toString().isEmpty() && !DialogOptionDescription.getText().toString().isEmpty()){
                     if(isExistOption(DialogOptionName.getText().toString(),categoryIndex)){
                         ON.setError("this name already exists");
-                    }else {
+                    }else if(Integer.parseInt(DialogOptionPrice.getText().toString())!=0) {
                         dialog.dismiss();
                         option.setName(DialogOptionName.getText().toString());
                         option.setPrice(Integer.parseInt(DialogOptionPrice.getText().toString()));
