@@ -21,6 +21,7 @@
         android:id="@+id/VTitle"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:paddingLeft="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_vertical"
@@ -29,12 +30,6 @@
         android:stateListAnimator="@null"
         android:hardwareAccelerated="true"
         android:elevation="80dp">
-        <ImageView
-            android:id="@+id/AddNC"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_margin="16dp"
-            android:src="@drawable/logo_"/>
         <TextView
             android:text="ResTop"
             style="@style/Title"/>

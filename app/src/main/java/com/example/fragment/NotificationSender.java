@@ -2,6 +2,7 @@ package com.example.fragment;
 
 import android.content.Context;
 import android.net.Uri;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,7 +30,8 @@ public class NotificationSender {
     private String Id;
     private String Title;
     private String Text;
-    private String ImgName;
+    private String ImgName="";
+
 
     public static String Path;
 
@@ -77,6 +79,7 @@ public class NotificationSender {
         ImgName = imgName;
     }
 
+
     public static void addNotification(NotificationSender notification, NotificationI notificationI){
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Notification").push();
         notification.setId(ref.getKey());
@@ -86,11 +89,14 @@ public class NotificationSender {
                 if(task.isSuccessful()) {
                     FirebaseStorage.getInstance().getReference().child("Notification/" + notification.getImgName())
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+
                         @Override
                         public void onSuccess(Uri uri) {
                             Uri downloadUri = uri;
                             Path = downloadUri.toString();
-                            notificationI.isSent(true);
+
+                                notificationI.isSent(true);
                         }
                     });
 
@@ -146,4 +152,5 @@ public class NotificationSender {
             }
         });
     }
+
 }

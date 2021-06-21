@@ -52,18 +52,24 @@ public class Notification extends AppCompatActivity {
             public void onClick(View v) {
                 String txtTitle=Title.getText().toString();
                 String txtText=Text.getText().toString();
-                if(!txtText.equals("") && !txtText.equals("") && !ImgName.equals("default.jpg")){
-                    notificationSender.setTitle(txtTitle);
-                    notificationSender.setText(txtText);
-                    notificationSender.setImgName(ImgName);
-                    NotificationSender.sendNotification(Notification.this, notificationSender, new NotificationSender.NotificationI() {
-                        @Override
-                        public void isSent(Boolean ok) {
-                            if(ok) Toast.makeText(Notification.this,"sent",Toast.LENGTH_LONG).show();
-                            else Toast.makeText(Notification.this,"unsent",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+                 if (!txtText.equals("") && !txtText.equals("") && !ImgName.equals("default.jpg")) {
+                        notificationSender.setTitle(txtTitle);
+                        notificationSender.setText(txtText);
+                        notificationSender.setImgName(ImgName);
+                        NotificationSender.sendNotification(Notification.this, notificationSender, new NotificationSender.NotificationI() {
+                            @Override
+                            public void isSent(Boolean ok) {
+                                if (ok)
+                                    Toast.makeText(Notification.this, "sent", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(Notification.this, "unsent", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                }else if (ImgName.equals("default.jpg")){
+                     Toast.makeText(Notification.this, "PLEASE UPLOAD AN IMAGE", Toast.LENGTH_LONG).show();
+
+                 }
             }
         });
 
@@ -146,4 +152,5 @@ public class Notification extends AppCompatActivity {
             Toast.makeText(Notification.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
         }
     }
+
 }
