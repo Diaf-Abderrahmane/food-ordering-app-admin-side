@@ -187,19 +187,19 @@ public class Menu extends Fragment {
         });
     }
 
-    public boolean isExistCategory(String name){
+    public boolean isExistCategory(String name,int position){
         boolean b=false;
         for(int i=0;i<AllCategories.size();i++)
-            if (AllCategories.get(i).getName().equals(name)){
+            if (i!=position && AllCategories.get(i).getName().equals(name)){
                 b=true;
                 break;
             }
         return b;
     }
-    public boolean isExistOption(String name,int categoryIndex){
+    public boolean isExistOption(String name,int categoryIndex,int position){
         boolean b=false;
         for(int i=0;i<AllCategories.get(categoryIndex).getAllOptions().size();i++)
-            if (AllCategories.get(categoryIndex).getAllOptions().get(i).getName().equals(name)){
+            if (i!=position && AllCategories.get(categoryIndex).getAllOptions().get(i).getName().equals(name)){
                 b=true;
                 break;
             }
@@ -238,7 +238,7 @@ public class Menu extends Fragment {
                 String CategoryName=DialogCategoryName.getText().toString();
                 if(CategoryName.isEmpty()){
                     CN.setError("Please enter category name");
-                }else if(isExistCategory(CategoryName)) {
+                }else if(isExistCategory(CategoryName,categoryIndex)) {
                     CN.setError("this name already exists");
                 }else{
                     dialog.dismiss();
@@ -347,7 +347,7 @@ public class Menu extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!DialogOptionName.getText().toString().isEmpty() && !DialogOptionPrice.getText().toString().isEmpty() && !DialogOptionDescription.getText().toString().isEmpty()){
-                    if(isExistOption(DialogOptionName.getText().toString(),categoryIndex)){
+                    if(isExistOption(DialogOptionName.getText().toString(),categoryIndex,position)){
                         ON.setError("this name already exists");
                     }else if(Integer.parseInt(DialogOptionPrice.getText().toString())!=0) {
                         dialog.dismiss();
@@ -695,6 +695,7 @@ public class Menu extends Fragment {
                                             notifyItemRangeChanged(position, AllCategories.size()-position);
                                             adapter2.notifyItemRemoved(position);
                                             adapter2.notifyItemRangeChanged(position, AllCategories.size()-position);
+                                            if(position>0)SelectCategory(CategoryList.get(position-1));
                                         }
                                     });
                                     break;
