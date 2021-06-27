@@ -63,6 +63,7 @@ import static android.app.Activity.RESULT_OK;
 public class Menu extends Fragment {
 
     int CPosition=-1;
+    int SCategory=-1;
     ArrayList<Category> AllCategories;
     RecyclerView.SmoothScroller smoothScroller;
     RecyclerView.SmoothScroller smoothScroller2;
@@ -133,8 +134,11 @@ public class Menu extends Fragment {
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                     SelectCategory(CategoryList.get(p[0]));
                 }
-                if(p[0]==CPosition) CPosition=-1;
                 position[0] = p[0];
+                if(p[0]==CPosition || newState==RecyclerView.SCROLL_STATE_IDLE){
+                    position[0]=CPosition;
+                    CPosition=-1;
+                }
             }
         });
 
@@ -645,6 +649,15 @@ public class Menu extends Fragment {
                     if(position==0){
                         SelectCategory(viewHolder2.getCategoryName());
                     }
+                    if(SCategory==position){
+                        SelectCategory(viewHolder2.getCategoryName());
+                        SCategory=-1;
+                        CPosition=position;
+                        smoothScroller2.setTargetPosition(position);
+                        recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
+                        smoothScroller.setTargetPosition(position);
+                        recyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
+                    }
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -701,6 +714,7 @@ public class Menu extends Fragment {
                                     break;
                                 case R.id.up:
                                     if(position!=0){
+                                        SCategory=position-1;
                                         notifyItemMoved(position,position-1);
                                         Category.Moved(AllCategories,position,true);
                                         notifyItemRangeChanged(position-1, 2);
@@ -709,6 +723,7 @@ public class Menu extends Fragment {
                                     break;
                                 case R.id.down:
                                     if(position!=AllCategories.size()-1){
+                                        SCategory=position+1;
                                         notifyItemMoved(position,position+1);
                                         Category.Moved(AllCategories,position,false);
                                         notifyItemRangeChanged(position, 2);
