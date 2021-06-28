@@ -69,8 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="0.01"
                 android:gravity="center"
                 android:text="Money :"
@@ -91,11 +90,20 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:text="DA"
+                android:textColor="@color/eblack"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginLeft="025dp"
                 android:layout_weight="0.3"
+                android:layout_marginLeft="05dp"
                 android:gravity="center"
                 android:text=" = "
                 android:textColor="@color/eblack"
@@ -121,6 +129,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.5"
                 android:gravity="center"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/eblack"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -161,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_weight="0.01"
                     android:gravity="center"
                     android:text="Money :"
@@ -174,7 +183,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:hint="00"
@@ -182,12 +190,21 @@
                     android:textColor="@color/eblack"
                     android:textSize="15sp"
                     android:textStyle="bold" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="DA"
+                    android:textColor="@color/eblack"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="025dp"
+                    android:layout_marginLeft="05dp"
                     android:layout_weight="0.3"
                     android:gravity="center"
                     android:text="= "
@@ -215,6 +232,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:hint="00"
+                    android:layout_marginRight="10dp"
                     android:inputType="number"
                     android:textColor="@color/eblack"
                     android:textSize="15sp"
