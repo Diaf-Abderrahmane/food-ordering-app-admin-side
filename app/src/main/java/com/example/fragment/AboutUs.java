@@ -47,11 +47,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AboutUs extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private ImageView back;
-    Uri imageUri;
-    ProgressBar progressBar ;
-    CircleImageView restaurantlogo;
-    CardView phone,instagramAccount,facebookPage,email,restaurantName,workTime;
-    String logoUrl,StrEmail,StrFP,StrIA,StrPH,StrRN,fromDay,toDay,fromTime,toTime;
+    private Uri imageUri;
+    private ProgressBar progressBar ;
+    private CircleImageView restaurantlogo;
+    private CardView phone,instagramAccount,facebookPage,email,restaurantName,workTime;
+    private String logoUrl,StrEmail,StrFP,StrIA,StrPH,StrRN,fromDay,toDay,fromTime,toTime;
     DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
     DatabaseReference mImageRef = firebaseDatabase.child("LogoUrl");
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance() ;

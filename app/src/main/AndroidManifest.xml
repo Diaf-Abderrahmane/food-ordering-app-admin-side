@@ -13,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResTopAdminWF">
-        <activity android:name=".ForgotPassword"/>
-        <activity android:name=".WorkTime"/>
+        <activity android:name=".MoneyAndPoints"></activity>
+        <activity android:name=".ForgotPassword" />
+        <activity android:name=".WorkTime" />
         <activity android:name=".Login" />
         <activity android:name=".Sign_up" />
         <activity android:name=".MainActivity" />
