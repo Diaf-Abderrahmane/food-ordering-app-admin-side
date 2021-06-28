@@ -53,7 +53,6 @@ public class AboutUs extends AppCompatActivity {
     private CardView phone,instagramAccount,facebookPage,email,restaurantName,workTime;
     private String logoUrl,StrEmail,StrFP,StrIA,StrPH,StrRN,fromDay,toDay,fromTime,toTime;
     DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
-    DatabaseReference mImageRef = firebaseDatabase.child("LogoUrl");
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance() ;
     StorageReference storageReference =firebaseStorage.getReference().child("Settings/");
     @Override
@@ -79,27 +78,6 @@ public class AboutUs extends AppCompatActivity {
 
             }
         });
-        mImageRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String link = snapshot.getValue(String.class);
-                Picasso.get().load(link).into(restaurantlogo, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-                };
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         storageReference.getPath();
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -120,6 +98,20 @@ public class AboutUs extends AppCompatActivity {
                             break;
                         case "RestaurantName":
                             StrRN =snap.getValue().toString();
+                            break;
+                        case "LogoUrl":
+                            Picasso.get().load(snap.getValue(String.class)).into(restaurantlogo, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+
+                                }
+                            });
+
                             break;
 
                     }

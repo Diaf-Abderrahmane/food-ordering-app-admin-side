@@ -57,11 +57,11 @@ public class Settings extends Fragment {
     private CircleImageView restaurantlogo;
     private ProgressBar progressBar;
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
-    DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("About_US").child("LogoUrl");
+    DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings, container, false);
+
         sendNotification = (LinearLayout) view.findViewById(R.id.SendNotification);
         emailEdit = (LinearLayout) view.findViewById(R.id.EmailEdit);
         passwordEdit = (LinearLayout) view.findViewById(R.id.PasswordEdit);
@@ -69,31 +69,29 @@ public class Settings extends Fragment {
         signOut = (LinearLayout) view.findViewById(R.id.SignOut);
         pointsEMoney = (LinearLayout) view.findViewById(R.id.PointsEMoney);
         restaurantlogo = (CircleImageView) view.findViewById(R.id.Logo);
-        progressBar = (ProgressBar) view.findViewById(R.id.LogoProgress);
+        progressBar = (ProgressBar) view.findViewById(R.id.LogoPg);
         progressBar.getIndeterminateDrawable().setColorFilter(0xEF7505, android.graphics.PorterDuff.Mode.MULTIPLY);
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String link = snapshot.getValue(String.class);
-                Picasso.get().load(link).into(restaurantlogo
-                        , new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                progressBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-                        });
+                for (DataSnapshot snap:snapshot.getChildren()){
+                    switch (snap.getKey()){
+                        case "LogoUrl":
+                            Picasso.get().load(snap.getValue(String.class)).into(restaurantlogo, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                                @Override
+                                public void onError(Exception e) {
+                                }
+                            });
+                            break;
+                    }
+                }
             }
-
-            ;
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         //-------------
