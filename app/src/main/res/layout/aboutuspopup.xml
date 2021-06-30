@@ -28,6 +28,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="30dp"
         android:text="StringEditing"
+        android:fontFamily="@font/opensans_regular"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Current"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/eblack"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -64,6 +66,7 @@
             android:layout_margin="5dp"
             android:padding="15dp"
             android:text=""
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/eblack"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -87,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginRight="10dp"
             android:background="@drawable/btncercle"
             android:text="Cancel"
@@ -102,6 +106,7 @@
             android:background="@drawable/btncercle"
             android:text="Edit"
             android:textColor="@color/white"
+            android:fontFamily="@font/opensans_regular"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -115,6 +120,7 @@
         android:layout_marginTop="10dp"
         android:hint="New"
 
+        android:fontFamily="@font/opensans_regular"
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="@color/eblack"

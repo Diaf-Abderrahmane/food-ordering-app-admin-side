@@ -6,6 +6,7 @@
     <EditText
         android:id="@+id/comment_reply_edittext"
         android:layout_width="match_parent"
+        android:fontFamily="@font/opensans_regular"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:background="@drawable/backgrounddescription"
