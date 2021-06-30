@@ -748,6 +748,7 @@ public class Menu extends Fragment {
                             switch (item.getItemId()) {
                                 case R.id.Edit:
                                     PopUpCategory(position);
+                                    SCategory=position;
                                     break;
                                 case R.id.Add_New_Option:
                                     PopUpOption(position, -1, null, new PopUpOptionC() {
