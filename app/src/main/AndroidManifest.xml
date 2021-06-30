@@ -13,17 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ResTopAdminWF">
-        <activity android:name=".MoneyAndPoints"></activity>
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".WorkTime" />
-        <activity android:name=".Login" />
-        <activity android:name=".Sign_up" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".AboutUs" />
-        <activity android:name=".PasswordEdit" />
-        <activity android:name=".EmailEdit" />
-        <activity android:name=".Notification" />
-        <activity android:name=".Splashscreen">
+        <activity android:name=".MoneyAndPoints" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ForgotPassword" android:screenOrientation="portrait" />
+        <activity android:name=".WorkTime" android:screenOrientation="portrait" />
+        <activity android:name=".Login" android:screenOrientation="portrait" />
+        <activity android:name=".Sign_up" android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
+        <activity android:name=".AboutUs" android:screenOrientation="portrait" />
+        <activity android:name=".PasswordEdit" android:screenOrientation="portrait" />
+        <activity android:name=".EmailEdit" android:screenOrientation="portrait" />
+        <activity android:name=".Notification" android:screenOrientation="portrait" />
+        <activity android:name=".Splashscreen" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
