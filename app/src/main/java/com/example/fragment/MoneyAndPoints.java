@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -63,16 +64,30 @@ public class MoneyAndPoints extends AppCompatActivity {
         newEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(newPoints.getText().toString().isEmpty())) {
-                    PointsAndMoney.child("Points").setValue(Integer.parseInt(newPoints.getText().toString()));
-                }
-                if (!(newMoney.getText().toString().isEmpty())) {
-                    PointsAndMoney.child("Money").setValue(Integer.parseInt(newMoney.getText().toString()));
-                }
-                Intent intent = new Intent(MoneyAndPoints.this, MainActivity.class);
-                intent.putExtra("key", 4);
-                startActivity(intent);
+                newPoints.setTextColor(getColor(R.color.eblack));
+                newMoney.setTextColor(getColor(R.color.eblack));
 
+                Boolean validP0=true;
+                String points =newPoints.getText().toString();
+                String money =newMoney.getText().toString();
+                if ((points.equals("0")) || (points.isEmpty())){
+                        validP0=false;
+                        newPoints.setTextColor(getColor(R.color.colorRed));
+                }
+                if ((money.equals("0")) || (money.isEmpty()) ){
+                        validP0=false;
+                        newMoney.setTextColor(getColor(R.color.colorRed));
+                }
+
+                if(validP0 ) {
+                    PointsAndMoney.child("Points").setValue(Integer.parseInt(newPoints.getText().toString()));
+                    PointsAndMoney.child("Money").setValue(Integer.parseInt(newMoney.getText().toString()));
+                    Toast.makeText(MoneyAndPoints.this, "Points Value is Changed", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MoneyAndPoints.this, MainActivity.class);
+                    intent.putExtra("key", 4);
+                    startActivity(intent);
+                }else
+                    Toast.makeText(MoneyAndPoints.this, "check you fields (must be do not empty and different from 0) ", Toast.LENGTH_SHORT).show();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
