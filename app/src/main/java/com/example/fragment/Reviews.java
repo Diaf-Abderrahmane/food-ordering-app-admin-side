@@ -41,7 +41,7 @@ public class Reviews extends Fragment {
     private ArrayList<Comment> listComments;
     private EditText description;
     private Button submitDescBtn;
-    final static String COMMENT_KEY = "Comments",DESCRIPTION_KEY = "resto_description";
+    final static String COMMENT_KEY = "Comments", DESCRIPTION_KEY = "resto_description";
 
 
     private FirebaseAuth firebaseAuth;
@@ -52,10 +52,8 @@ public class Reviews extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_reviews, container, false);
+        View view = inflater.inflate(R.layout.fragment_reviews, container, false);
         // if you want to understand more features check client reviews code
-
-
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -76,8 +74,8 @@ public class Reviews extends Fragment {
         aboutUsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists() && snapshot.getChildrenCount()>0){
-                    if(snapshot.hasChild(DESCRIPTION_KEY)){
+                if (snapshot.exists() && snapshot.getChildrenCount() > 0) {
+                    if (snapshot.hasChild(DESCRIPTION_KEY)) {
                         String desc = snapshot.child(DESCRIPTION_KEY).getValue(String.class);
                         description.setText(desc);
                     }
@@ -101,7 +99,6 @@ public class Reviews extends Fragment {
         });
 
 
-
         // get the app logo from firebase
         getLogo();
 
@@ -113,7 +110,7 @@ public class Reviews extends Fragment {
         return view;
     }
 
-    private void getLogo(){
+    private void getLogo() {
         DatabaseReference logoRef = firebaseDatabase.getReference().child("About_Us");
         logoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -143,13 +140,13 @@ public class Reviews extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 listComments.clear();
-                for(DataSnapshot snap:snapshot.getChildren()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Comment comment = snap.getValue(Comment.class);
                     listComments.add(comment);
 
                 }
                 Collections.reverse(listComments);
-                commentAdapter = new CommentAdapter(getActivity(),listComments);
+                commentAdapter = new CommentAdapter(getActivity(), listComments);
                 RvComment.setAdapter(commentAdapter);
 
 
@@ -163,6 +160,6 @@ public class Reviews extends Fragment {
 
 
     private void showMessage(String message) {
-        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

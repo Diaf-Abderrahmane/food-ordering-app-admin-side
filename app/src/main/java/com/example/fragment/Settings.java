@@ -57,7 +57,8 @@ public class Settings extends Fragment {
     private CircleImageView restaurantlogo;
     private ProgressBar progressBar;
     FirebaseAuth fAuth = FirebaseAuth.getInstance();
-    DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
+    DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("About_Us");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings, container, false);
@@ -74,14 +75,15 @@ public class Settings extends Fragment {
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (snap.getKey()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (snap.getKey()) {
                         case "LogoUrl":
                             Picasso.get().load(snap.getValue(String.class)).into(restaurantlogo, new Callback() {
                                 @Override
                                 public void onSuccess() {
                                     progressBar.setVisibility(View.GONE);
                                 }
+
                                 @Override
                                 public void onError(Exception e) {
                                 }
@@ -90,6 +92,7 @@ public class Settings extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

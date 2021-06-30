@@ -29,9 +29,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Sign_up extends AppCompatActivity {
-    private TextView res,top,gettingStarted,toContinue;
+    private TextView res, top, gettingStarted, toContinue;
     private TextInputLayout email, password, confirmPassword;
-    private Button signUpBtn,toLogin;
+    private Button signUpBtn, toLogin;
     private FirebaseAuth fAuth;
     private FirebaseDatabase fireb;
     private DatabaseReference racine;
@@ -66,7 +66,6 @@ public class Sign_up extends AppCompatActivity {
     };
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,15 +82,15 @@ public class Sign_up extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         AwesomeValidation awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
-        awesomeValidation.addValidation(this,R.id.email,Patterns.EMAIL_ADDRESS,R.string.invalid_email);
-        awesomeValidation.addValidation(this,R.id.password,".{6,}",R.string.invalid_password);
-        awesomeValidation.addValidation(this,R.id.confirmPassword,R.id.password,R.string.invalid_confirm_password);
+        awesomeValidation.addValidation(this, R.id.email, Patterns.EMAIL_ADDRESS, R.string.invalid_email);
+        awesomeValidation.addValidation(this, R.id.password, ".{6,}", R.string.invalid_password);
+        awesomeValidation.addValidation(this, R.id.confirmPassword, R.id.password, R.string.invalid_confirm_password);
         email.getEditText().addTextChangedListener(SignUpTextWatcher);
         password.getEditText().addTextChangedListener(SignUpTextWatcher);
         confirmPassword.getEditText().addTextChangedListener(SignUpTextWatcher);
 
         if (fAuth.getCurrentUser() != null) {
-            startActivity(new Intent(Sign_up.this,Menu.class));
+            startActivity(new Intent(Sign_up.this, Menu.class));
             finish();
         }
 
@@ -103,19 +102,18 @@ public class Sign_up extends AppCompatActivity {
                 String vcPassword = confirmPassword.getEditText().getText().toString();
 
 
-
-                if (awesomeValidation.validate()){
+                if (awesomeValidation.validate()) {
                     fAuth.createUserWithEmailAndPassword(vemail, vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                fAuth.signInWithEmailAndPassword(vemail,vpassword);
+                                fAuth.signInWithEmailAndPassword(vemail, vpassword);
                                 String userId = fAuth.getCurrentUser().getUid();
                                 Toast.makeText(Sign_up.this, "Admin Created", Toast.LENGTH_SHORT).show();
 
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Email", vemail);
-                                map.put("NotificationActivation",1);
+                                map.put("NotificationActivation", 1);
                                 FirebaseDatabase.getInstance().getReference().child("Admins").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -127,10 +125,10 @@ public class Sign_up extends AppCompatActivity {
                                         Toast.makeText(Sign_up.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                Toast.makeText(Sign_up.this, userId , Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Sign_up.this,MainActivity.class));
+                                Toast.makeText(Sign_up.this, userId, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Sign_up.this, MainActivity.class));
                             } else {
-                                Toast.makeText(Sign_up.this, "Error "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Sign_up.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 //startActivity(new Intent(LOG.this,REG.class));
                             }
                         }
@@ -138,7 +136,8 @@ public class Sign_up extends AppCompatActivity {
                 } else {
                     Toast.makeText(Sign_up.this, "Validation failed", Toast.LENGTH_SHORT).show();
                 }
-            }});
+            }
+        });
 
         toLogin.setOnClickListener(new View.OnClickListener() {
             @Override

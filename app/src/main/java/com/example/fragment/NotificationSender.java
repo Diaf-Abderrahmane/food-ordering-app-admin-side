@@ -30,17 +30,18 @@ public class NotificationSender {
     private String Id;
     private String Title;
     private String Text;
-    private String ImgName="";
+    private String ImgName = "";
 
 
     public static String Path;
 
-    interface NotificationI{
+    interface NotificationI {
         void isSent(Boolean ok);
     }
 
     public NotificationSender() {
     }
+
     public NotificationSender(String title, String text, String imgName) {
         this.Title = title;
         this.Text = text;
@@ -80,13 +81,13 @@ public class NotificationSender {
     }
 
 
-    public static void addNotification(NotificationSender notification, NotificationI notificationI){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Notification").push();
+    public static void addNotification(NotificationSender notification, NotificationI notificationI) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Notification").push();
         notification.setId(ref.getKey());
         ref.setValue(notification).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     FirebaseStorage.getInstance().getReference().child("Notification/" + notification.getImgName())
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 
@@ -96,7 +97,7 @@ public class NotificationSender {
                             Uri downloadUri = uri;
                             Path = downloadUri.toString();
 
-                                notificationI.isSent(true);
+                            notificationI.isSent(true);
                         }
                     });
 
@@ -104,21 +105,22 @@ public class NotificationSender {
             }
         });
     }
+
     public static void sendNotification(Context context, NotificationSender notification, NotificationI notificationI) {
         addNotification(notification, new NotificationI() {
             @Override
             public void isSent(Boolean ok) {
-                if(ok) {
+                if (ok) {
                     RequestQueue mRequestQue = Volley.newRequestQueue(context);
                     final String URL = "https://fcm.googleapis.com/fcm/send";
                     JSONObject json = new JSONObject();
                     try {
-                        json.put("to","/topics/"+"Notification");
+                        json.put("to", "/topics/" + "Notification");
                         JSONObject notificationObj = new JSONObject();
-                        notificationObj.put("title",notification.getTitle());
-                        notificationObj.put("body",notification.getText());
-                        notificationObj.put("image",Path);
-                        json.put("notification",notificationObj);
+                        notificationObj.put("title", notification.getTitle());
+                        notificationObj.put("body", notification.getText());
+                        notificationObj.put("image", Path);
+                        json.put("notification", notificationObj);
                         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
                                 json,
                                 new Response.Listener<JSONObject>() {
@@ -132,23 +134,20 @@ public class NotificationSender {
                                     public void onErrorResponse(VolleyError error) {
                                         notificationI.isSent(false);
                                     }
-                                })
-                        {
+                                }) {
                             @Override
                             public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String,String> header = new HashMap<>();
-                                header.put("content-type","application/json");
-                                header.put("authorization","key=AAAAYO1D3cg:APA91bFblmwrhf7dg-RjXhhY0yvfriavjq_nJMGoiseYTz5pYr1VX0fhT7R00bWvYb6_HWrq8Z0CHCHNkzvumncpXyuns518PXfJLayfv3Mh3veTEl_Q2g2icM3yFFqQOJiNHtPCk7zv\t\n");
+                                Map<String, String> header = new HashMap<>();
+                                header.put("content-type", "application/json");
+                                header.put("authorization", "key=AAAAYO1D3cg:APA91bFblmwrhf7dg-RjXhhY0yvfriavjq_nJMGoiseYTz5pYr1VX0fhT7R00bWvYb6_HWrq8Z0CHCHNkzvumncpXyuns518PXfJLayfv3Mh3veTEl_Q2g2icM3yFFqQOJiNHtPCk7zv\t\n");
                                 return header;
                             }
                         };
                         mRequestQue.add(request);
-                    }
-                    catch (JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else notificationI.isSent(false);
+                } else notificationI.isSent(false);
             }
         });
     }

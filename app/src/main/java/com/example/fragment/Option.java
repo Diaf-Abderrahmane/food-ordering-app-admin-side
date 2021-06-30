@@ -24,13 +24,15 @@ public class Option {
     private String ImgName;
     private String Description;
 
-    interface OptionsStatus{
+    interface OptionsStatus {
         void isLoaded(ArrayList<Option> AllOptions);
     }
-    interface OptionsStatusC{
+
+    interface OptionsStatusC {
         void onDataChange();
     }
-    interface ImgStatus{
+
+    interface ImgStatus {
         void isLoaded(Bitmap img);
     }
 
@@ -93,24 +95,25 @@ public class Option {
         Description = description;
     }
 
-    public static void ReadOptions(String id,OptionsStatus optionsStatus) {
+    public static void ReadOptions(String id, OptionsStatus optionsStatus) {
         ArrayList<Option> AllOptions = new ArrayList<>();
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All");
         ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    for (DataSnapshot ds:task.getResult().getChildren()) {
-                        Option o=ds.getValue(Option.class);
+                if (task.isSuccessful()) {
+                    for (DataSnapshot ds : task.getResult().getChildren()) {
+                        Option o = ds.getValue(Option.class);
                         AllOptions.add(o);
-                        if (task.getResult().getChildrenCount()==AllOptions.size()) optionsStatus.isLoaded(AllOptions);
+                        if (task.getResult().getChildrenCount() == AllOptions.size())
+                            optionsStatus.isLoaded(AllOptions);
                     }
                 }
             }
         });
     }
 
-    public static void getImg(String imgName,ImgStatus imgStatus){
+    public static void getImg(String imgName, ImgStatus imgStatus) {
 
         String imgPath = "Menu/" + imgName;
         StorageReference SRef = FirebaseStorage.getInstance().getReference().child(imgPath);
@@ -128,40 +131,42 @@ public class Option {
         });
     }
 
-    public static void AddOption(String id,Option option, OptionsStatusC optionsStatusC){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").push();
+    public static void AddOption(String id, Option option, OptionsStatusC optionsStatusC) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").push();
         option.setId(ref.getKey());
         ref.setValue(option).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) optionsStatusC.onDataChange();
+                if (task.isSuccessful()) optionsStatusC.onDataChange();
             }
         });
     }
 
-    public static void EditOption(String id,Option option, OptionsStatusC optionsStatusC){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").child(option.getId());
+    public static void EditOption(String id, Option option, OptionsStatusC optionsStatusC) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").child(option.getId());
         ref.setValue(option).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) optionsStatusC.onDataChange();
+                if (task.isSuccessful()) optionsStatusC.onDataChange();
             }
         });
     }
 
-    public static void DeleteOption(String id,Option option, OptionsStatusC optionsStatusC){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").child(option.getId());
+    public static void DeleteOption(String id, Option option, OptionsStatusC optionsStatusC) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Menu").child(id).child("All").child(option.getId());
         ref.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 DeleteOptionImg(option.getImgName());
-                if(task.isSuccessful()) optionsStatusC.onDataChange();
+                if (task.isSuccessful()) optionsStatusC.onDataChange();
             }
         });
     }
-    public static void DeleteOptionImg(String imgName){
-        if(!imgName.equals("default.jpg")) {
+
+    public static void DeleteOptionImg(String imgName) {
+        if (!imgName.equals("default.jpg")) {
             String ImgPath = "Menu/" + imgName;
             FirebaseStorage.getInstance().getReference().child(ImgPath).delete();
-        }}
+        }
+    }
 }

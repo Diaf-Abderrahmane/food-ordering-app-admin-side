@@ -3,7 +3,7 @@ package com.example.fragment;
 import com.google.firebase.database.ServerValue;
 
 public class Comment {
-    private String content,  key, reply;
+    private String content, key, reply;
     private float rating;
 
     private Object timestamp;
@@ -46,11 +46,6 @@ public class Comment {
     public void setContent(String content) {
         this.content = content;
     }
-
-
-
-
-
 
 
     public void setReply(String reply) {

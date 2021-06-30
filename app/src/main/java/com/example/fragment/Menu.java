@@ -62,8 +62,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class Menu extends Fragment {
 
-    int CPosition=-1;
-    int SCategory=-1;
+    int CPosition = -1;
+    int SCategory = -1;
     ArrayList<Category> AllCategories;
     RecyclerView.SmoothScroller smoothScroller;
     RecyclerView.SmoothScroller smoothScroller2;
@@ -72,7 +72,7 @@ public class Menu extends Fragment {
     RecyclerView recyclerView;
     RecyclerView recyclerView2;
     ProgressBar progressBar;
-    ArrayList<TextView> CategoryList=new ArrayList<TextView>();
+    ArrayList<TextView> CategoryList = new ArrayList<TextView>();
 
     LinearLayout VMenu;
     AlertDialog.Builder alertDialog;
@@ -85,11 +85,12 @@ public class Menu extends Fragment {
     ImageView DialogIUpload;
     ImageView DialogIClear;
 
-    TextView textView0=null;
+    TextView textView0 = null;
 
     ImageButton btn;
-    boolean bBtn=false;
-    interface PopUpOptionC{
+    boolean bBtn = false;
+
+    interface PopUpOptionC {
         void btnClicked(Option option);
     }
 
@@ -98,28 +99,30 @@ public class Menu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view =inflater.inflate(R.layout.fragment_menu, container, false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
 
         smoothScroller = new LinearSmoothScroller(getActivity()) {
-            @Override protected int getVerticalSnapPreference() {
+            @Override
+            protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
         smoothScroller2 = new LinearSmoothScroller(getActivity()) {
-            @Override protected int getVerticalSnapPreference() {
+            @Override
+            protected int getVerticalSnapPreference() {
                 return LinearSmoothScroller.SNAP_TO_START;
             }
         };
 
-        progressBar=view.findViewById(R.id.progressBar);
-        VMenu=view.findViewById(R.id.VMenu);
+        progressBar = view.findViewById(R.id.progressBar);
+        VMenu = view.findViewById(R.id.VMenu);
 
 
         recyclerView = view.findViewById(R.id.Menu);
         recyclerView2 = view.findViewById(R.id.AllCategories);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
         final int[] position = {0};
         final int[] p = {0};
@@ -128,16 +131,16 @@ public class Menu extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                p[0] = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                if (position[0] != p[0] && CPosition==-1){
+                p[0] = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                if (position[0] != p[0] && CPosition == -1) {
                     smoothScroller2.setTargetPosition(p[0]);
                     recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                     SelectCategory(CategoryList.get(p[0]));
                 }
                 position[0] = p[0];
-                if(p[0]==CPosition || newState==RecyclerView.SCROLL_STATE_IDLE){
-                    position[0]=CPosition;
-                    CPosition=-1;
+                if (p[0] == CPosition || newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    position[0] = CPosition;
+                    CPosition = -1;
                 }
             }
         });
@@ -150,29 +153,30 @@ public class Menu extends Fragment {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected && !c[0]) {
                     Refresh();
-                    c[0] =true;
+                    c[0] = true;
                 } else {
-                    c[0]=false;
+                    c[0] = false;
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
-        btn=view.findViewById(R.id.AddNC);
+        btn = view.findViewById(R.id.AddNC);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(bBtn) PopUpCategory(-1);
+                if (bBtn) PopUpCategory(-1);
             }
         });
 
 
-
         return view;
     }
-    public void Refresh(){
+
+    public void Refresh() {
         Category.ReadCategories(new Category.CategoriesStatus() {
             @Override
             public void isLoaded(ArrayList<Category> allCategories) {
@@ -183,87 +187,95 @@ public class Menu extends Fragment {
                 recyclerView2.setAdapter(adapter2);
                 progressBar.setVisibility(View.INVISIBLE);
                 VMenu.setVisibility(View.VISIBLE);
-                if(!bBtn){
-                    bBtn=true;
+                if (!bBtn) {
+                    bBtn = true;
                     btn.setImageResource(R.drawable.ic_baseline_library_add);
                 }
             }
         });
     }
 
-    public boolean isExistCategory(String name,int position){
-        boolean b=false;
-        for(int i=0;i<AllCategories.size();i++)
-            if (i!=position && AllCategories.get(i).getName().equals(name)){
-                b=true;
+    public boolean isExistCategory(String name, int position) {
+        boolean b = false;
+        for (int i = 0; i < AllCategories.size(); i++)
+            if (i != position && AllCategories.get(i).getName().equals(name)) {
+                b = true;
                 break;
             }
         return b;
     }
-    public boolean isExistOption(String name,int categoryIndex,int position){
-        boolean b=false;
-        for(int i=0;i<AllCategories.get(categoryIndex).getAllOptions().size();i++)
-            if (i!=position && AllCategories.get(categoryIndex).getAllOptions().get(i).getName().equals(name)){
-                b=true;
+
+    public boolean isExistOption(String name, int categoryIndex, int position) {
+        boolean b = false;
+        for (int i = 0; i < AllCategories.get(categoryIndex).getAllOptions().size(); i++)
+            if (i != position && AllCategories.get(categoryIndex).getAllOptions().get(i).getName().equals(name)) {
+                b = true;
                 break;
             }
         return b;
     }
-    public void PopUpCategory(int categoryIndex){
-        alertDialog=new AlertDialog.Builder(getActivity());
-        view=getLayoutInflater().inflate(R.layout.alert_dialog_category,null);
-        TextView DialogTitle=view.findViewById(R.id.dialog_title);
-        EditText DialogCategoryName=view.findViewById(R.id.dialog_category_name);
-        Button DialogBtn=view.findViewById(R.id.dialog_btn);
-        if(categoryIndex!=-1){
+
+    public void PopUpCategory(int categoryIndex) {
+        alertDialog = new AlertDialog.Builder(getActivity());
+        view = getLayoutInflater().inflate(R.layout.alert_dialog_category, null);
+        TextView DialogTitle = view.findViewById(R.id.dialog_title);
+        EditText DialogCategoryName = view.findViewById(R.id.dialog_category_name);
+        Button DialogBtn = view.findViewById(R.id.dialog_btn);
+        if (categoryIndex != -1) {
             DialogTitle.setText("Edit category name");
             DialogBtn.setText("Edit category name");
             DialogCategoryName.setText(AllCategories.get(categoryIndex).getName());
         }
         alertDialog.setView(view);
-        dialog=alertDialog.create();
+        dialog = alertDialog.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
-        com.google.android.material.textfield.TextInputLayout CN= view.findViewById(R.id.c_name);
+        com.google.android.material.textfield.TextInputLayout CN = view.findViewById(R.id.c_name);
         DialogCategoryName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if(DialogCategoryName.getText().toString().isEmpty()) CN.setError("Please enter category name");
+                if (DialogCategoryName.getText().toString().isEmpty())
+                    CN.setError("Please enter category name");
                 else CN.setError("");
             }
         });
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String CategoryName=DialogCategoryName.getText().toString();
-                if(CategoryName.isEmpty()){
+                String CategoryName = DialogCategoryName.getText().toString();
+                if (CategoryName.isEmpty()) {
                     CN.setError("Please enter category name");
-                }else if(isExistCategory(CategoryName,categoryIndex)) {
+                } else if (isExistCategory(CategoryName, categoryIndex)) {
                     CN.setError("this name already exists");
-                }else{
+                } else {
                     dialog.dismiss();
-                    if(categoryIndex!=-1) Category.EditCategoryName(AllCategories.get(categoryIndex).getId(), CategoryName, new Category.CategoriesStatusC() {
-                        @Override
-                        public void onDataChange() {
-                            AllCategories.get(categoryIndex).setName(CategoryName);
-                            adapter.notifyItemChanged(categoryIndex);
-                            adapter2.notifyItemChanged(categoryIndex);
-                        }
-                    });
-                    else{
-                        Category category=new Category(CategoryName, AllCategories.size(),new ArrayList<Option>());
+                    if (categoryIndex != -1)
+                        Category.EditCategoryName(AllCategories.get(categoryIndex).getId(), CategoryName, new Category.CategoriesStatusC() {
+                            @Override
+                            public void onDataChange() {
+                                AllCategories.get(categoryIndex).setName(CategoryName);
+                                adapter.notifyItemChanged(categoryIndex);
+                                adapter2.notifyItemChanged(categoryIndex);
+                            }
+                        });
+                    else {
+                        Category category = new Category(CategoryName, AllCategories.size(), new ArrayList<Option>());
                         Category.AddCategory(category, new Category.CategoriesStatusC() {
                             @Override
                             public void onDataChange() {
                                 AllCategories.add(category);
-                                adapter.notifyItemInserted(AllCategories.size()-1);
-                                adapter.notifyItemRangeChanged(AllCategories.size()-1, 1);
-                                adapter2.notifyItemInserted(AllCategories.size()-1);
-                                adapter2.notifyItemRangeChanged(AllCategories.size()-1, 1);
+                                adapter.notifyItemInserted(AllCategories.size() - 1);
+                                adapter.notifyItemRangeChanged(AllCategories.size() - 1, 1);
+                                adapter2.notifyItemInserted(AllCategories.size() - 1);
+                                adapter2.notifyItemRangeChanged(AllCategories.size() - 1, 1);
                             }
                         });
                     }
@@ -272,25 +284,25 @@ public class Menu extends Fragment {
         });
     }
 
-    public void PopUpOption(int categoryIndex, int position, Drawable OptionImg, PopUpOptionC popUpOptionC){
-        alertDialog=new AlertDialog.Builder(getActivity());
-        view=getLayoutInflater().inflate(R.layout.alert_dialog_option,null);
+    public void PopUpOption(int categoryIndex, int position, Drawable OptionImg, PopUpOptionC popUpOptionC) {
+        alertDialog = new AlertDialog.Builder(getActivity());
+        view = getLayoutInflater().inflate(R.layout.alert_dialog_option, null);
 
-        TextView DialogTitle=view.findViewById(R.id.dialog_title);
-        EditText DialogOptionName=view.findViewById(R.id.dialog_option_name);
-        EditText DialogOptionPrice=view.findViewById(R.id.dialog_option_price);
-        EditText DialogOptionDescription=view.findViewById(R.id.dialog_option_description);
-        DialogOptionImage=view.findViewById(R.id.dialog_option_image);
-        DialogIImage=view.findViewById(R.id.dialog_icon_image);
-        DialogIUpload=view.findViewById(R.id.dialog_icon_upload);
-        DialogIClear=view.findViewById(R.id.dialog_icon_clear);
-        ProgressBar DialogProgressbar=view.findViewById(R.id.dialog_progressbar);
+        TextView DialogTitle = view.findViewById(R.id.dialog_title);
+        EditText DialogOptionName = view.findViewById(R.id.dialog_option_name);
+        EditText DialogOptionPrice = view.findViewById(R.id.dialog_option_price);
+        EditText DialogOptionDescription = view.findViewById(R.id.dialog_option_description);
+        DialogOptionImage = view.findViewById(R.id.dialog_option_image);
+        DialogIImage = view.findViewById(R.id.dialog_icon_image);
+        DialogIUpload = view.findViewById(R.id.dialog_icon_upload);
+        DialogIClear = view.findViewById(R.id.dialog_icon_clear);
+        ProgressBar DialogProgressbar = view.findViewById(R.id.dialog_progressbar);
 
-        Button DialogBtn=view.findViewById(R.id.dialog_btn);
+        Button DialogBtn = view.findViewById(R.id.dialog_btn);
 
 
-        Option option=new Option();
-        if(position!=-1){
+        Option option = new Option();
+        if (position != -1) {
             DialogTitle.setText("Edit Option");
             DialogBtn.setText("Edit Option");
             DialogOptionName.setText(AllCategories.get(categoryIndex).getAllOptions().get(position).getName());
@@ -300,49 +312,65 @@ public class Menu extends Fragment {
             DialogIImage.setVisibility(View.INVISIBLE);
             DialogIClear.setVisibility(View.VISIBLE);
             option.setImgName(AllCategories.get(categoryIndex).getAllOptions().get(position).getImgName());
-        }else option.setImgName("default.jpg");
+        } else option.setImgName("default.jpg");
 
         alertDialog.setView(view);
-        dialog=alertDialog.create();
+        dialog = alertDialog.create();
         dialog.show();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        com.google.android.material.textfield.TextInputLayout ON= view.findViewById(R.id.o_name);
+        com.google.android.material.textfield.TextInputLayout ON = view.findViewById(R.id.o_name);
         DialogOptionName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if(DialogOptionName.getText().toString().isEmpty()) ON.setError("Please enter option name");
+                if (DialogOptionName.getText().toString().isEmpty())
+                    ON.setError("Please enter option name");
                 else ON.setError("");
             }
         });
 
-        com.google.android.material.textfield.TextInputLayout OP= view.findViewById(R.id.o_price);
+        com.google.android.material.textfield.TextInputLayout OP = view.findViewById(R.id.o_price);
         DialogOptionPrice.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if(DialogOptionPrice.getText().toString().isEmpty()) OP.setError("Please enter option price");
-                else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
+                if (DialogOptionPrice.getText().toString().isEmpty())
+                    OP.setError("Please enter option price");
+                else if (Integer.parseInt(DialogOptionPrice.getText().toString()) == 0)
+                    OP.setError("Option price can't be 0");
                 else OP.setError("");
             }
         });
 
-        com.google.android.material.textfield.TextInputLayout OD= view.findViewById(R.id.o_description);
+        com.google.android.material.textfield.TextInputLayout OD = view.findViewById(R.id.o_description);
         DialogOptionDescription.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
             @Override
             public void afterTextChanged(Editable s) {
-                if(DialogOptionDescription.getText().toString().isEmpty()) OD.setError("Please enter option description");
+                if (DialogOptionDescription.getText().toString().isEmpty())
+                    OD.setError("Please enter option description");
                 else OD.setError("");
             }
         });
@@ -350,10 +378,10 @@ public class Menu extends Fragment {
         DialogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!DialogOptionName.getText().toString().isEmpty() && !DialogOptionPrice.getText().toString().isEmpty() && !DialogOptionDescription.getText().toString().isEmpty()){
-                    if(isExistOption(DialogOptionName.getText().toString(),categoryIndex,position)){
+                if (!DialogOptionName.getText().toString().isEmpty() && !DialogOptionPrice.getText().toString().isEmpty() && !DialogOptionDescription.getText().toString().isEmpty()) {
+                    if (isExistOption(DialogOptionName.getText().toString(), categoryIndex, position)) {
                         ON.setError("this name already exists");
-                    }else if(Integer.parseInt(DialogOptionPrice.getText().toString())!=0) {
+                    } else if (Integer.parseInt(DialogOptionPrice.getText().toString()) != 0) {
                         dialog.dismiss();
                         option.setName(DialogOptionName.getText().toString());
                         option.setPrice(Integer.parseInt(DialogOptionPrice.getText().toString()));
@@ -376,11 +404,15 @@ public class Menu extends Fragment {
                             });
                         }
                     }
-                }else{
-                    if(DialogOptionName.getText().toString().isEmpty())ON.setError("Please enter option name");
-                    if(DialogOptionPrice.getText().toString().isEmpty())OP.setError("Please enter option price");
-                    else if(Integer.parseInt(DialogOptionPrice.getText().toString())==0)OP.setError("Option price can't be 0");
-                    if(DialogOptionDescription.getText().toString().isEmpty())OD.setError("Please enter option description");
+                } else {
+                    if (DialogOptionName.getText().toString().isEmpty())
+                        ON.setError("Please enter option name");
+                    if (DialogOptionPrice.getText().toString().isEmpty())
+                        OP.setError("Please enter option price");
+                    else if (Integer.parseInt(DialogOptionPrice.getText().toString()) == 0)
+                        OP.setError("Option price can't be 0");
+                    if (DialogOptionDescription.getText().toString().isEmpty())
+                        OD.setError("Please enter option description");
                 }
             }
         });
@@ -404,16 +436,16 @@ public class Menu extends Fragment {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] data = baos.toByteArray();
 
-                Random random=new Random();
-                int r0=random.nextInt(20);
-                int r1=random.nextInt(20)+20;
-                int r2=random.nextInt(20)+30;
+                Random random = new Random();
+                int r0 = random.nextInt(20);
+                int r1 = random.nextInt(20) + 20;
+                int r2 = random.nextInt(20) + 30;
 
-                String OptionImgName="img_"+ categoryIndex +r0+r1+r2+ ".jpg";
+                String OptionImgName = "img_" + categoryIndex + r0 + r1 + r2 + ".jpg";
                 option.setImgName(OptionImgName);
 
 
-                String imgPath="Menu/"+OptionImgName;
+                String imgPath = "Menu/" + OptionImgName;
                 UploadTask uploadTask = FirebaseStorage.getInstance().getReference().child(imgPath).putBytes(data);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -452,7 +484,7 @@ public class Menu extends Fragment {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
                 final Bitmap b = BitmapFactory.decodeStream(imageStream);
-                bitmap=Bitmap.createScaledBitmap(b, 392, 248, false);
+                bitmap = Bitmap.createScaledBitmap(b, 392, 248, false);
 
                 DialogOptionImage.setImageBitmap(bitmap);
                 DialogIImage.setVisibility(View.INVISIBLE);
@@ -463,15 +495,14 @@ public class Menu extends Fragment {
                 e.printStackTrace();
                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
             }
-        }else {
-            Toast.makeText(getActivity(), "You haven't picked Image",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "You haven't picked Image", Toast.LENGTH_LONG).show();
         }
     }
 
 
-
-    public void SelectCategory(TextView textView1){
-        if(textView1!=null && textView0!=textView1) {
+    public void SelectCategory(TextView textView1) {
+        if (textView1 != null && textView0 != textView1) {
             int py = textView1.getPaddingTop();
             int px = textView1.getPaddingLeft();
             textView1.setBackgroundResource(R.drawable.bg_view_list_category_s);
@@ -487,7 +518,7 @@ public class Menu extends Fragment {
     }
 
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private int ViewType=0;
+        private int ViewType = 0;
         private int CategoryIndex;
 
         public class ViewHolder0 extends RecyclerView.ViewHolder {
@@ -503,9 +534,17 @@ public class Menu extends Fragment {
                 toolbar = view.findViewById(R.id.ToolBar);
             }
 
-            public RecyclerView getCategoryOptions() { return CategoryOptions;    }
-            public Toolbar getToolbar() { return toolbar;   }
-            public TextView getCategoryName() {  return CategoryName;  }
+            public RecyclerView getCategoryOptions() {
+                return CategoryOptions;
+            }
+
+            public Toolbar getToolbar() {
+                return toolbar;
+            }
+
+            public TextView getCategoryName() {
+                return CategoryName;
+            }
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
@@ -519,7 +558,7 @@ public class Menu extends Fragment {
             public ViewHolder1(View view) {
                 super(view);
 
-                Option_v=view.findViewById(R.id.Option_v);
+                Option_v = view.findViewById(R.id.Option_v);
                 OptionName = view.findViewById(R.id.OptionName);
                 OptionDescription = view.findViewById(R.id.OptionDescription);
                 OptionPrice = view.findViewById(R.id.OptionPrice);
@@ -528,12 +567,29 @@ public class Menu extends Fragment {
 
             }
 
-            public CardView getOption_v(){return  Option_v;}
-            public TextView getOptionName() { return OptionName;  }
-            public TextView getOptionDescription() { return OptionDescription;  }
-            public TextView getOptionPrice() { return OptionPrice;  }
-            public ImageView getOptionImg() { return OptionImg;  }
-            public Toolbar getToolbar() { return toolbar;   }
+            public CardView getOption_v() {
+                return Option_v;
+            }
+
+            public TextView getOptionName() {
+                return OptionName;
+            }
+
+            public TextView getOptionDescription() {
+                return OptionDescription;
+            }
+
+            public TextView getOptionPrice() {
+                return OptionPrice;
+            }
+
+            public ImageView getOptionImg() {
+                return OptionImg;
+            }
+
+            public Toolbar getToolbar() {
+                return toolbar;
+            }
         }
 
 
@@ -554,12 +610,14 @@ public class Menu extends Fragment {
 
         public CustomAdapter() {
         }
+
         public CustomAdapter(int viewType) {
-            ViewType=viewType;
+            ViewType = viewType;
         }
+
         public CustomAdapter(int viewType, int categoryIndex) {
-            ViewType=viewType;
-            CategoryIndex=categoryIndex;
+            ViewType = viewType;
+            CategoryIndex = categoryIndex;
         }
 
         @Override
@@ -568,7 +626,7 @@ public class Menu extends Fragment {
             View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_option, parent, false);
             View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_list_category, parent, false);
 
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return new ViewHolder1(view1);
                 case 2:
@@ -582,15 +640,15 @@ public class Menu extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder Holder, final int position) {
             switch (ViewType) {
                 case 1:
-                    ViewHolder1 viewHolder1=(ViewHolder1) Holder;
+                    ViewHolder1 viewHolder1 = (ViewHolder1) Holder;
                     viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getName());
                     viewHolder1.getOptionDescription().setText(AllCategories.get(CategoryIndex).getAllOptions().get(position).getDescription());
-                    String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() +" DZD";
+                    String price = AllCategories.get(CategoryIndex).getAllOptions().get(position).getPrice() + " DZD";
                     viewHolder1.getOptionPrice().setText(price);
                     Option.getImg(AllCategories.get(CategoryIndex).getAllOptions().get(position).getImgName(), new Option.ImgStatus() {
                         @Override
                         public void isLoaded(Bitmap img) {
-                            if(img!=null)viewHolder1.getOptionImg().setImageBitmap(img);
+                            if (img != null) viewHolder1.getOptionImg().setImageBitmap(img);
                             else Option.getImg("default.jpg", new Option.ImgStatus() {
                                 @Override
                                 public void isLoaded(Bitmap img) {
@@ -606,12 +664,12 @@ public class Menu extends Fragment {
                     viewHolder1.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()){
+                            switch (item.getItemId()) {
                                 case R.id.Edit:
-                                    PopUpOption(CategoryIndex, position,viewHolder1.getOptionImg().getDrawable(), new PopUpOptionC() {
+                                    PopUpOption(CategoryIndex, position, viewHolder1.getOptionImg().getDrawable(), new PopUpOptionC() {
                                         @Override
                                         public void btnClicked(Option option) {
-                                            AllCategories.get(CategoryIndex).getAllOptions().set(position,option);
+                                            AllCategories.get(CategoryIndex).getAllOptions().set(position, option);
                                             notifyItemChanged(position);
                                         }
                                     });
@@ -622,7 +680,7 @@ public class Menu extends Fragment {
                                         public void onDataChange() {
                                             AllCategories.get(CategoryIndex).getAllOptions().remove(position);
                                             notifyItemRemoved(position);
-                                            notifyItemRangeChanged(position, AllCategories.get(CategoryIndex).getAllOptions().size()-position);
+                                            notifyItemRangeChanged(position, AllCategories.get(CategoryIndex).getAllOptions().size() - position);
                                         }
                                     });
                                     break;
@@ -641,18 +699,19 @@ public class Menu extends Fragment {
 
                     break;
                 case 2:
-                    ViewHolder2 viewHolder2=(ViewHolder2) Holder;
-                    if(position<CategoryList.size())CategoryList.set(position,viewHolder2.getCategoryName());
+                    ViewHolder2 viewHolder2 = (ViewHolder2) Holder;
+                    if (position < CategoryList.size())
+                        CategoryList.set(position, viewHolder2.getCategoryName());
                     else CategoryList.add(viewHolder2.getCategoryName());
 
                     viewHolder2.getCategoryName().setText(AllCategories.get(position).getName());
-                    if(position==0){
+                    if (position == 0) {
                         SelectCategory(viewHolder2.getCategoryName());
                     }
-                    if(SCategory==position){
+                    if (SCategory == position) {
                         SelectCategory(viewHolder2.getCategoryName());
-                        SCategory=-1;
-                        CPosition=position;
+                        SCategory = -1;
+                        CPosition = position;
                         smoothScroller2.setTargetPosition(position);
                         recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
                         smoothScroller.setTargetPosition(position);
@@ -661,7 +720,7 @@ public class Menu extends Fragment {
                     viewHolder2.getCategoryName().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            CPosition=position;
+                            CPosition = position;
                             SelectCategory(viewHolder2.getCategoryName());
                             smoothScroller2.setTargetPosition(position);
                             recyclerView2.getLayoutManager().startSmoothScroll(smoothScroller2);
@@ -672,26 +731,26 @@ public class Menu extends Fragment {
                     break;
 
                 default:
-                    ViewHolder0 viewHolder0=(ViewHolder0) Holder;
+                    ViewHolder0 viewHolder0 = (ViewHolder0) Holder;
                     viewHolder0.getCategoryName().setText(AllCategories.get(position).getName());
 
                     viewHolder0.getToolbar().getMenu().clear();
                     viewHolder0.getToolbar().inflateMenu(R.menu.toolbar_category);
 
                     viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(getActivity()));
-                    CustomAdapter adapterO = new CustomAdapter(1,position);
+                    CustomAdapter adapterO = new CustomAdapter(1, position);
                     viewHolder0.getCategoryOptions().setAdapter(adapterO);
 
 
                     viewHolder0.getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()){
+                            switch (item.getItemId()) {
                                 case R.id.Edit:
                                     PopUpCategory(position);
                                     break;
                                 case R.id.Add_New_Option:
-                                    PopUpOption(position, -1,null, new PopUpOptionC() {
+                                    PopUpOption(position, -1, null, new PopUpOptionC() {
                                         @Override
                                         public void btnClicked(Option option) {
                                             AllCategories.get(position).getAllOptions().add(option);
@@ -705,27 +764,28 @@ public class Menu extends Fragment {
                                         public void onDataChange() {
                                             AllCategories.remove(position);
                                             notifyItemRemoved(position);
-                                            notifyItemRangeChanged(position, AllCategories.size()-position);
+                                            notifyItemRangeChanged(position, AllCategories.size() - position);
                                             adapter2.notifyItemRemoved(position);
-                                            adapter2.notifyItemRangeChanged(position, AllCategories.size()-position);
-                                            if(position>0)SelectCategory(CategoryList.get(position-1));
+                                            adapter2.notifyItemRangeChanged(position, AllCategories.size() - position);
+                                            if (position > 0)
+                                                SelectCategory(CategoryList.get(position - 1));
                                         }
                                     });
                                     break;
                                 case R.id.up:
-                                    if(position!=0){
-                                        SCategory=position-1;
-                                        notifyItemMoved(position,position-1);
-                                        Category.Moved(AllCategories,position,true);
-                                        notifyItemRangeChanged(position-1, 2);
-                                        adapter2.notifyItemRangeChanged(position-1, 2);
+                                    if (position != 0) {
+                                        SCategory = position - 1;
+                                        notifyItemMoved(position, position - 1);
+                                        Category.Moved(AllCategories, position, true);
+                                        notifyItemRangeChanged(position - 1, 2);
+                                        adapter2.notifyItemRangeChanged(position - 1, 2);
                                     }
                                     break;
                                 case R.id.down:
-                                    if(position!=AllCategories.size()-1){
-                                        SCategory=position+1;
-                                        notifyItemMoved(position,position+1);
-                                        Category.Moved(AllCategories,position,false);
+                                    if (position != AllCategories.size() - 1) {
+                                        SCategory = position + 1;
+                                        notifyItemMoved(position, position + 1);
+                                        Category.Moved(AllCategories, position, false);
                                         notifyItemRangeChanged(position, 2);
                                         adapter2.notifyItemRangeChanged(position, 2);
                                     }
@@ -742,7 +802,7 @@ public class Menu extends Fragment {
 
         @Override
         public int getItemCount() {
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return AllCategories.get(CategoryIndex).getAllOptions().size();
                 default:

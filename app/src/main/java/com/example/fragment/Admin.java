@@ -49,12 +49,12 @@ public class Admin {
         UserName = userName;
     }
 
-    public static void AddAdmin(Admin admin,String password){
-        FirebaseAuth auth= FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(admin.getEmail(),password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public static void AddAdmin(Admin admin, String password) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.createUserWithEmailAndPassword(admin.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     //task.getResult().getUser().sendEmailVerification();
                     String UId = task.getResult().getUser().getUid().toString();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Admins").child(UId);
@@ -64,9 +64,9 @@ public class Admin {
         });
     }
 
-    public static void EditAdmin(Admin admin,String password){
-        FirebaseAuth auth= FirebaseAuth.getInstance();
-        FirebaseUser user=auth.getCurrentUser();
+    public static void EditAdmin(Admin admin, String password) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
         user.updateEmail(admin.getEmail());
         user.updatePassword(password);
     }

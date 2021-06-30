@@ -34,7 +34,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private ArrayList<Comment> mData;
 
 
-
     public CommentAdapter(Context context, ArrayList<Comment> data) {
         this.mContext = context;
         this.mData = data;
@@ -43,7 +42,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View row = LayoutInflater.from(mContext).inflate(R.layout.row_comment,parent,false);
+        View row = LayoutInflater.from(mContext).inflate(R.layout.row_comment, parent, false);
         return new CommentViewHolder(row);
     }
 
@@ -51,7 +50,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
 
         ///////////////////////////
-        getUserPhoto(holder,position);
+        getUserPhoto(holder, position);
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mData.get(position).getKey());
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -81,8 +80,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.replyComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.Theme_AppCompat_Light_Dialog_Alert));
-                final View replyLayout = LayoutInflater.from(mContext).inflate(R.layout.add_reply,null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.Theme_AppCompat_Light_Dialog_Alert));
+                final View replyLayout = LayoutInflater.from(mContext).inflate(R.layout.add_reply, null);
                 builder.setView(replyLayout);
                 builder.setTitle("Admin reply");
                 EditText commentReply = replyLayout.findViewById(R.id.comment_reply_edittext);
@@ -109,12 +108,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return mData.size();
     }
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder{
-        ImageView userPhoto,removeComment,replyComment;
-        TextView name,content,date;
+    public class CommentViewHolder extends RecyclerView.ViewHolder {
+        ImageView userPhoto, removeComment, replyComment;
+        TextView name, content, date;
         RatingBar commentRatingShow;
 
-        public CommentViewHolder(View itemView){
+        public CommentViewHolder(View itemView) {
             super(itemView);
             userPhoto = itemView.findViewById(R.id.comment_img);
             name = itemView.findViewById(R.id.comment_username);
@@ -125,6 +124,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             replyComment = itemView.findViewById(R.id.comment_add_reply);
         }
     }
+
     private void getUserPhoto(@NonNull CommentViewHolder holder, int position) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -137,8 +137,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         Glide.with(mContext).load(image).into(holder.userPhoto);
 
 
-                    }
-                    else
+                    } else
                         Glide.with(mContext).load(R.drawable.profile_pic).into(holder.userPhoto);
                 }
 
@@ -151,11 +150,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             }
         });
     }
+
     private String timestampToString(long time) {
 
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        String date = DateFormat.format("dd/MM/yyyy",calendar).toString();
+        String date = DateFormat.format("dd/MM/yyyy", calendar).toString();
         return date;
 
 

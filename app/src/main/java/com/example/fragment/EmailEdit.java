@@ -26,9 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class EmailEdit extends AppCompatActivity {
     Button edit;
-    EditText newEmail,confiremEmail;
-    FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+    EditText newEmail, confiremEmail;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,49 +44,57 @@ public class EmailEdit extends AppCompatActivity {
                 final String NewEmail = newEmail.getText().toString();
                 final String ConfirmNewEmail = confiremEmail.getText().toString();
                 if (isValidData(EmailEdit.this, NewEmail, ConfirmNewEmail)) {
-                        firebaseUser.updateEmail(NewEmail)
-                                .addOnCompleteListener(EmailEdit.this, new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(EmailEdit.this, new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    Toast.makeText(EmailEdit.this, "please check your email for verification before go out", Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                        } else {
-                                            Toast.makeText(EmailEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                        }
+                    firebaseUser.updateEmail(NewEmail)
+                            .addOnCompleteListener(EmailEdit.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        firebaseAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(EmailEdit.this, new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                Toast.makeText(EmailEdit.this, "please check your email for verification before go out", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(EmailEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                     }
-                                });
+                                }
+                            });
 
-                    } else {
-                        confiremEmail.setTextColor(getColor(R.color.colorRed));
+                } else {
+                    confiremEmail.setTextColor(getColor(R.color.colorRed));
                 }
             }
         });
     }
-    static boolean isValidData(Activity thisActivity,String NewEmail,String ConfirmNewEmail){
-        Boolean isValidNewEmail,isValidConfirmNewEmail;
-        ArrayList<String> errors=new ArrayList<>();
 
-        isValidNewEmail= Patterns.EMAIL_ADDRESS.matcher(NewEmail).matches();
-        isValidConfirmNewEmail=ConfirmNewEmail.length()>=6;
+    static boolean isValidData(Activity thisActivity, String NewEmail, String ConfirmNewEmail) {
+        Boolean isValidNewEmail, isValidConfirmNewEmail;
+        ArrayList<String> errors = new ArrayList<>();
+
+        isValidNewEmail = Patterns.EMAIL_ADDRESS.matcher(NewEmail).matches();
+        isValidConfirmNewEmail = ConfirmNewEmail.length() >= 6;
 
 
-        if (!isValidNewEmail) {errors.add("أدخل بريد الكتروني صالح");}
-        if (!isValidConfirmNewEmail) {errors.add("أدخل بريد الكتروني صالح"); }
-        if(!(isValidNewEmail && isValidConfirmNewEmail)){show(thisActivity,errors);}
+        if (!isValidNewEmail) {
+            errors.add("أدخل بريد الكتروني صالح");
+        }
+        if (!isValidConfirmNewEmail) {
+            errors.add("أدخل بريد الكتروني صالح");
+        }
+        if (!(isValidNewEmail && isValidConfirmNewEmail)) {
+            show(thisActivity, errors);
+        }
 
-        return isValidNewEmail && isValidConfirmNewEmail ;
+        return isValidNewEmail && isValidConfirmNewEmail;
     }
-    static void show(Activity thisActivity, ArrayList<String> errors){
+
+    static void show(Activity thisActivity, ArrayList<String> errors) {
         AlertDialog.Builder adb = new AlertDialog.Builder(thisActivity);
         LinearLayout L = new LinearLayout(thisActivity);
         L.setOrientation(LinearLayout.VERTICAL);
 
-        for (int i=0;i<errors.size();i++) {
+        for (int i = 0; i < errors.size(); i++) {
             TextView Tv = new TextView(thisActivity);
             Tv.setText(errors.get(i));
             L.addView(Tv);

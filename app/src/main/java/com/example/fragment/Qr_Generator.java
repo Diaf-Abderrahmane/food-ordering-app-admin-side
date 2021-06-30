@@ -54,31 +54,32 @@ public class Qr_Generator extends Fragment {
     RadioGroup RGroup;
     com.google.android.material.radiobutton.MaterialRadioButton PWP;
     com.google.android.material.radiobutton.MaterialRadioButton EP;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view =inflater.inflate(R.layout.fragment_qr__generator, container, false);
-        progressBar=view.findViewById(R.id.progressBar);
-        QrMenuL=view.findViewById(R.id.QrMenuL);
-        VMenu=view.findViewById(R.id.VMenu);
-        VQR=view.findViewById(R.id.VQR);
+        View view = inflater.inflate(R.layout.fragment_qr__generator, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
+        QrMenuL = view.findViewById(R.id.QrMenuL);
+        VMenu = view.findViewById(R.id.VMenu);
+        VQR = view.findViewById(R.id.VQR);
 
-        Qrstatus=view.findViewById(R.id.QR_status);
+        Qrstatus = view.findViewById(R.id.QR_status);
 
         recyclerView = view.findViewById(R.id.QRMenu);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Total=view.findViewById(R.id.total);
-        RGroup=view.findViewById(R.id.RGroup);
-        PWP=view.findViewById(R.id.PWP);
-        EP=view.findViewById(R.id.EP);
+        Total = view.findViewById(R.id.total);
+        RGroup = view.findViewById(R.id.RGroup);
+        PWP = view.findViewById(R.id.PWP);
+        EP = view.findViewById(R.id.EP);
 
-        Button QRbtn=view.findViewById(R.id.QR_btn);
-        QRbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Button QRbtn = view.findViewById(R.id.QR_btn);
+       QRbtn.setOnClickListener(new View.OnClickListener() {
+             @Override
             public void onClick(View v) {
-                if(PWP.isChecked() ||EP.isChecked()) {
+                if (PWP.isChecked() || EP.isChecked()) { //pay with points / earn points
                     ArrayList<Qr.qrOption> os = new ArrayList<>();
                     for (int i = 0; i < AllCategories.size(); i++)
                         for (int j = 0; j < AllCategories.get(i).getAllqrOptions().size(); j++)
@@ -88,7 +89,7 @@ public class Qr_Generator extends Fragment {
                     if (os.size() > 0) {
                         VMenu.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
-                        int QrStatus = 0;
+                        int QrStatus = 0;        //EP---->0    //   PWP---->1)
                         if (PWP.isChecked()) QrStatus = 1;
                         Qr.AddQr(new Qr(r(), QrStatus, os), new Qr.AddQrCode() {
                             @Override
@@ -111,14 +112,14 @@ public class Qr_Generator extends Fragment {
                                 Qr.isQrChanged(id, new Qr.QrCode() {
                                     @Override
                                     public void isQrChanged(int status) {
-                                        if (status == 0 || status == 1) {
+                                        if (status == 0 || status == 1) { // code pas encore scanné
                                             Qrstatus.setText("Waiting...");
                                         } else if (status == 2) {
-                                            Qrstatus.setText("Points added successfully");
+                                            Qrstatus.setText("Points added successfully");// Points ajoutés avec succés ( payement avec l'argent)
                                         } else if (status == 3) {
-                                            Qrstatus.setText("Payment was successful");
+                                            Qrstatus.setText("Payment was successful");// Payement avec points ( décrémentation des points)
                                         } else if (status == 4) {
-                                            Qrstatus.setText("Not enough points");
+                                            Qrstatus.setText("Not enough points");// Points insuffisant
                                         }
                                     }
                                 });
@@ -128,7 +129,7 @@ public class Qr_Generator extends Fragment {
                 }
             }
         });
-        Button GNQR=view.findViewById(R.id.GNQR);
+        Button GNQR = view.findViewById(R.id.GNQR);
         GNQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,48 +149,50 @@ public class Qr_Generator extends Fragment {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected && !c[0]) {
                     Refresh();
-                    c[0] =true;
+                    c[0] = true;
                 } else {
-                    c[0]=false;
+                    c[0] = false;
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
 
-
-
         return view;
     }
-    public int r(){
-        int T=0;
 
-        for (int i=0;i<AllCategories.size();i++)
-            for (int j=0;j<AllCategories.get(i).getAllqrOptions().size();j++)
-                if(AllCategories.get(i).getAllqrOptions().get(j).getQuantity()>0) T+=AllCategories.get(i).getAllqrOptions().get(j).getQuantity()*AllCategories.get(i).getAllqrOptions().get(j).getPrice();
-        Total.setText("Total: "+String.valueOf(T)+" Dzd");
+    public int r() {
+        int T = 0;
+
+        for (int i = 0; i < AllCategories.size(); i++)
+            for (int j = 0; j < AllCategories.get(i).getAllqrOptions().size(); j++)
+                if (AllCategories.get(i).getAllqrOptions().get(j).getQuantity() > 0)
+                    T += AllCategories.get(i).getAllqrOptions().get(j).getQuantity() * AllCategories.get(i).getAllqrOptions().get(j).getPrice();
+        Total.setText("Total: " + String.valueOf(T) + " Dzd");
 
         return T;
     }
-    public void Refresh(){
+
+    public void Refresh() {
         progressBar.setVisibility(View.VISIBLE);
         QrMenuL.setVisibility(View.INVISIBLE);
 
         Category.ReadCategories(new Category.CategoriesStatus() {
             @Override
             public void isLoaded(ArrayList<Category> allCategories) {
-                ArrayList<Category> all=Category.OrderCategories(allCategories);
-                AllCategories=new ArrayList<>();
+                ArrayList<Category> all = Category.OrderCategories(allCategories);
+                AllCategories = new ArrayList<>();
                 ArrayList<Qr.qrOption> allO;
                 Option o;
-                for (int i=0;i<all.size();i++){
-                    AllCategories.add(new Qr.qrCategory(all.get(i).getId(),all.get(i).getName(),all.get(i).getIndex()));
-                    allO=new ArrayList<>();
-                    for (int j=0;j<all.get(i).getAllOptions().size();j++){
-                        o=all.get(i).getAllOptions().get(j);
-                        allO.add(new Qr.qrOption(o.getId(),o.getName(),o.getPrice(),o.getImgName(),o.getDescription(),0));
+                for (int i = 0; i < all.size(); i++) {
+                    AllCategories.add(new Qr.qrCategory(all.get(i).getId(), all.get(i).getName(), all.get(i).getIndex()));
+                    allO = new ArrayList<>();
+                    for (int j = 0; j < all.get(i).getAllOptions().size(); j++) {
+                        o = all.get(i).getAllOptions().get(j);
+                        allO.add(new Qr.qrOption(o.getId(), o.getName(), o.getPrice(), o.getImgName(), o.getDescription(), 0));
                     }
                     AllCategories.get(i).setAllqrOptions(allO);
                 }
@@ -230,7 +233,7 @@ public class Qr_Generator extends Fragment {
 
 
     public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private int ViewType=0;
+        private int ViewType = 0;
         private int CategoryIndex;
 
         public class ViewHolder0 extends RecyclerView.ViewHolder {
@@ -244,14 +247,25 @@ public class Qr_Generator extends Fragment {
 
                 CategoryName = view.findViewById(R.id.CategoryName);
                 CategoryOptions = view.findViewById(R.id.CategoryOptions);
-                CategoryShowOptions=view.findViewById(R.id.CategoryShowOptions);
-                vCategory=view.findViewById(R.id.vCategory);
+                CategoryShowOptions = view.findViewById(R.id.CategoryShowOptions);
+                vCategory = view.findViewById(R.id.vCategory);
             }
 
-            public RecyclerView getCategoryOptions() { return CategoryOptions;    }
-            public TextView getCategoryName() {  return CategoryName;  }
-            public ImageButton getCategoryShowOptions() {  return CategoryShowOptions;  }
-            public LinearLayout getvCategory() {  return vCategory;  }
+            public RecyclerView getCategoryOptions() {
+                return CategoryOptions;
+            }
+
+            public TextView getCategoryName() {
+                return CategoryName;
+            }
+
+            public ImageButton getCategoryShowOptions() {
+                return CategoryShowOptions;
+            }
+
+            public LinearLayout getvCategory() {
+                return vCategory;
+            }
         }
 
         public class ViewHolder1 extends RecyclerView.ViewHolder {
@@ -272,19 +286,34 @@ public class Qr_Generator extends Fragment {
 
             }
 
-            public TextView getOptionName() { return OptionName;  }
-            public TextView getOptionPrice() { return OptionPrice;  }
-            public TextView getOptionQuantity() { return OptionQuantity;  }
-            public ImageButton getOptionQuantityAdd() { return OptionQuantityAdd;  }
-            public ImageButton getOptionQuantityRemove() { return OptionQuantityRemove;  }
+            public TextView getOptionName() {
+                return OptionName;
+            }
+
+            public TextView getOptionPrice() {
+                return OptionPrice;
+            }
+
+            public TextView getOptionQuantity() {
+                return OptionQuantity;
+            }
+
+            public ImageButton getOptionQuantityAdd() {
+                return OptionQuantityAdd;
+            }
+
+            public ImageButton getOptionQuantityRemove() {
+                return OptionQuantityRemove;
+            }
         }
 
 
         public CustomAdapter() {
         }
+
         public CustomAdapter(int viewType, int categoryIndex) {
-            ViewType=viewType;
-            CategoryIndex=categoryIndex;
+            ViewType = viewType;
+            CategoryIndex = categoryIndex;
         }
 
         @Override
@@ -292,7 +321,7 @@ public class Qr_Generator extends Fragment {
             View view0 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_category_, parent, false);
             View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_option_, parent, false);
 
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return new CustomAdapter.ViewHolder1(view1);
                 default:
@@ -304,15 +333,15 @@ public class Qr_Generator extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder Holder, final int position) {
             switch (ViewType) {
                 case 1:
-                    CustomAdapter.ViewHolder1 viewHolder1=(CustomAdapter.ViewHolder1) Holder;
+                    CustomAdapter.ViewHolder1 viewHolder1 = (CustomAdapter.ViewHolder1) Holder;
                     viewHolder1.getOptionName().setText(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getName());
-                    String price = AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getPrice() +" DZD";
+                    String price = AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getPrice() + " DZD";
                     viewHolder1.getOptionPrice().setText(price);
 
                     viewHolder1.getOptionQuantityAdd().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AllCategories.get(CategoryIndex).getAllqrOptions().get(position).setQuantity(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity()+1);
+                            AllCategories.get(CategoryIndex).getAllqrOptions().get(position).setQuantity(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity() + 1);
                             viewHolder1.getOptionQuantity().setText(String.valueOf(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity()));
                             r();
                         }
@@ -320,8 +349,8 @@ public class Qr_Generator extends Fragment {
                     viewHolder1.getOptionQuantityRemove().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity()>0) {
-                                AllCategories.get(CategoryIndex).getAllqrOptions().get(position).setQuantity(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity()-1);
+                            if (AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity() > 0) {
+                                AllCategories.get(CategoryIndex).getAllqrOptions().get(position).setQuantity(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity() - 1);
                                 viewHolder1.getOptionQuantity().setText(String.valueOf(AllCategories.get(CategoryIndex).getAllqrOptions().get(position).getQuantity()));
                                 r();
                             }
@@ -330,20 +359,19 @@ public class Qr_Generator extends Fragment {
 
                     break;
                 default:
-                    CustomAdapter.ViewHolder0 viewHolder0=(CustomAdapter.ViewHolder0) Holder;
+                    CustomAdapter.ViewHolder0 viewHolder0 = (CustomAdapter.ViewHolder0) Holder;
                     viewHolder0.getCategoryName().setText(AllCategories.get(position).getName());
                     viewHolder0.getCategoryShowOptions().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             AutoTransition autoTransition = new AutoTransition();
                             autoTransition.setDuration(10);
-                            TransitionManager.beginDelayedTransition(viewHolder0.getvCategory(),autoTransition);
+                            TransitionManager.beginDelayedTransition(viewHolder0.getvCategory(), autoTransition);
 
-                            if(viewHolder0.getCategoryOptions().getVisibility()==View.GONE){
+                            if (viewHolder0.getCategoryOptions().getVisibility() == View.GONE) {
                                 viewHolder0.getCategoryOptions().setVisibility(View.VISIBLE);
                                 viewHolder0.getCategoryShowOptions().setImageDrawable(getActivity().getDrawable(R.drawable.ic_baseline_keyboard_arrow_up));
-                            }
-                            else{
+                            } else {
                                 viewHolder0.getCategoryOptions().setVisibility(View.GONE);
                                 viewHolder0.getCategoryShowOptions().setImageDrawable(getActivity().getDrawable(R.drawable.ic_baseline_keyboard_arrow_down));
                             }
@@ -351,7 +379,7 @@ public class Qr_Generator extends Fragment {
                     });
 
                     viewHolder0.getCategoryOptions().setLayoutManager(new LinearLayoutManager(getActivity()));
-                    CustomAdapter adapterO = new CustomAdapter(1,position);
+                    CustomAdapter adapterO = new CustomAdapter(1, position);
                     viewHolder0.getCategoryOptions().setAdapter(adapterO);
                     break;
             }
@@ -360,7 +388,7 @@ public class Qr_Generator extends Fragment {
 
         @Override
         public int getItemCount() {
-            switch (ViewType){
+            switch (ViewType) {
                 case 1:
                     return AllCategories.get(CategoryIndex).getAllqrOptions().size();
                 default:

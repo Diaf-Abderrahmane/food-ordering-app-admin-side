@@ -26,7 +26,7 @@ public class Splashscreen extends AppCompatActivity {
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);
             }
-        },1000);
+        }, 1000);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -35,10 +35,10 @@ public class Splashscreen extends AppCompatActivity {
                     startActivity(new Intent(Splashscreen.this, MainActivity.class));
                     finish();
                 } else {
-                    startActivity(new Intent(Splashscreen.this,Login.class));
+                    startActivity(new Intent(Splashscreen.this, Login.class));
                     finish();
                 }
             }
-        },SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);
     }
 }

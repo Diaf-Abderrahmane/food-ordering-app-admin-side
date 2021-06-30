@@ -48,13 +48,14 @@ public class AboutUs extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private ImageView back;
     private Uri imageUri;
-    private ProgressBar progressBar ;
+    private ProgressBar progressBar;
     private CircleImageView restaurantlogo;
-    private CardView phone,instagramAccount,facebookPage,email,restaurantName,workTime;
-    private String logoUrl,StrEmail,StrFP,StrIA,StrPH,StrRN,fromDay,toDay,fromTime,toTime;
-    DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance() ;
-    StorageReference storageReference =firebaseStorage.getReference().child("Settings/");
+    private CardView phone, instagramAccount, facebookPage, email, restaurantName, workTime;
+    private String logoUrl, StrEmail, StrFP, StrIA, StrPH, StrRN, fromDay, toDay, fromTime, toTime;
+    DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("About_Us");
+    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+    StorageReference storageReference = firebaseStorage.getReference().child("Settings/");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +67,12 @@ public class AboutUs extends AppCompatActivity {
         phone = (CardView) findViewById(R.id.Phone);
         workTime = (CardView) findViewById(R.id.WorkTime);
         restaurantlogo = (CircleImageView) findViewById(R.id.Logo);
-        back = (ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         progressBar = (ProgressBar) findViewById(R.id.LogoProgress);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(AboutUs.this, MainActivity.class);
+                Intent intent = new Intent(AboutUs.this, MainActivity.class);
                 intent.putExtra("key", 4);
                 startActivity(intent);
 
@@ -82,22 +83,22 @@ public class AboutUs extends AppCompatActivity {
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (snap.getKey()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (snap.getKey()) {
                         case "Email":
-                            StrEmail =snap.getValue().toString();
+                            StrEmail = snap.getValue().toString();
                             break;
                         case "FacebookPage":
-                            StrFP =snap.getValue().toString();
+                            StrFP = snap.getValue().toString();
                             break;
                         case "InstagramAccount":
-                            StrIA =snap.getValue().toString();
+                            StrIA = snap.getValue().toString();
                             break;
                         case "Phone":
-                            StrPH =snap.getValue().toString();
+                            StrPH = snap.getValue().toString();
                             break;
                         case "RestaurantName":
-                            StrRN =snap.getValue().toString();
+                            StrRN = snap.getValue().toString();
                             break;
                         case "LogoUrl":
                             Picasso.get().load(snap.getValue(String.class)).into(restaurantlogo, new Callback() {
@@ -119,6 +120,7 @@ public class AboutUs extends AppCompatActivity {
                 }
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -127,49 +129,51 @@ public class AboutUs extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 chooseImg();
-                 }
+            }
         });
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                showDialog(AboutUs.this,"Email Edit",StrEmail);
+                showDialog(AboutUs.this, "Email Edit", StrEmail);
             }
         });
         facebookPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 showDialog(AboutUs.this,"FacebookPage Edit",StrFP);
-                }
+                showDialog(AboutUs.this, "FacebookPage Edit", StrFP);
+            }
         });
         instagramAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"InstagramAccount Edit",StrIA);
+                showDialog(AboutUs.this, "InstagramAccount Edit", StrIA);
             }
         });
         restaurantName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"RestaurantName Edit",StrRN);
+                showDialog(AboutUs.this, "RestaurantName Edit", StrRN);
             }
         });
         phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(AboutUs.this,"Phone Edit",StrPH);
+                showDialog(AboutUs.this, "Phone Edit", StrPH);
             }
         });
         workTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(AboutUs.this,WorkTime.class);
-                startActivity(intent);}
+                Intent intent = new Intent(AboutUs.this, WorkTime.class);
+                startActivity(intent);
+            }
         });
 
     }
-    public void showDialog(Activity activity, String msg, String hint){
+
+    public void showDialog(Activity activity, String msg, String hint) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.aboutuspopup);
@@ -178,12 +182,12 @@ public class AboutUs extends AppCompatActivity {
         final TextView currentText = (TextView) dialog.findViewById(R.id.Currenttext);
         Button cancel = (Button) dialog.findViewById(R.id.Cancel);
         Button newEdit = (Button) dialog.findViewById(R.id.NewEdit);
-        String nString =newString.getText().toString();
+        String nString = newString.getText().toString();
         ImageView editIcon = (ImageView) dialog.findViewById(R.id.EditIcon);
         dialogTilte.setText(msg);
         newString.setHint("New");
         currentText.setText(hint);
-        switch (msg){
+        switch (msg) {
             case "Email Edit":
                 newString.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 editIcon.setImageDrawable(getDrawable(R.drawable.ic_baseline_email1));
@@ -202,58 +206,56 @@ public class AboutUs extends AppCompatActivity {
                 break;
             case "Phone Edit":
                 newString.setInputType(InputType.TYPE_CLASS_NUMBER);
-                newString.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
+                newString.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
                 editIcon.setImageDrawable(getDrawable(R.drawable.ic_baseline_phone));
                 break;
         }
         newEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (msg){
+                switch (msg) {
                     case "Email Edit":
                         String finalNewEmail = newString.getText().toString();
-                        if(finalNewEmail.equals("")){
+                        if (finalNewEmail.equals("")) {
                             Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
-                        }else {
-                        firebaseDatabase.child("Email").setValue(finalNewEmail);
-                        Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
+                        } else {
+                            firebaseDatabase.child("Email").setValue(finalNewEmail);
+                            Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case "FacebookPage Edit":
                         String finalNewFacebook = newString.getText().toString();
-                        if(finalNewFacebook.equals("")){
+                        if (finalNewFacebook.equals("")) {
                             Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
-                        }else {
-                        firebaseDatabase.child("FacebookPage").setValue(finalNewFacebook);
+                        } else {
+                            firebaseDatabase.child("FacebookPage").setValue(finalNewFacebook);
                             Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case "InstagramAccount Edit":
                         String finalNewInstagramAccount = newString.getText().toString();
-                        if(finalNewInstagramAccount.equals("")){
+                        if (finalNewInstagramAccount.equals("")) {
                             Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
-                        }else {
-                        firebaseDatabase.child("InstagramAccount").setValue(finalNewInstagramAccount);
+                        } else {
+                            firebaseDatabase.child("InstagramAccount").setValue(finalNewInstagramAccount);
                             Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
                         }
-
                         break;
                     case "RestaurantName Edit":
                         String finalNewRestaurantName = newString.getText().toString();
-                        if(finalNewRestaurantName.equals("")){
+                        if (finalNewRestaurantName.equals("")) {
                             Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
-                        }else {
-                        firebaseDatabase.child("RestaurantName").setValue(finalNewRestaurantName);
+                        } else {
+                            firebaseDatabase.child("RestaurantName").setValue(finalNewRestaurantName);
                             Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
                         }
-
                         break;
                     case "Phone Edit":
                         String finalNewphone = newString.getText().toString();
-                        if(finalNewphone.equals("")){
+                        if (finalNewphone.equals("")) {
                             Toast.makeText(AboutUs.this, "Nothing is changed", Toast.LENGTH_SHORT).show();
-                        }else {
-                        firebaseDatabase.child("Phone").setValue(finalNewphone);
+                        } else {
+                            firebaseDatabase.child("Phone").setValue(finalNewphone);
                             Toast.makeText(AboutUs.this, "Data is changed", Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -270,19 +272,22 @@ public class AboutUs extends AppCompatActivity {
 
         dialog.show();
     }
+
     private void chooseImg() {
-        Intent intent =new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE);
+        startActivityForResult(intent, PICK_IMAGE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE && resultCode != 0 && data != null){
-            imageUri=data.getData();
+        if (requestCode == PICK_IMAGE && resultCode != 0 && data != null) {
+            imageUri = data.getData();
             restaurantlogo.setImageURI(imageUri);
-            UploadImg();}
+            UploadImg();
+        }
     }
 
     private void UploadImg() {
@@ -317,8 +322,8 @@ public class AboutUs extends AppCompatActivity {
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                        double progressPercent = (100.00*snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                        PD.setMessage("Progress : " +(int) progressPercent+"%");
+                        double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        PD.setMessage("Progress : " + (int) progressPercent + "%");
                     }
                 });
     }

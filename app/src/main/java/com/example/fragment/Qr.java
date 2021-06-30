@@ -19,11 +19,12 @@ public class Qr {
     private String UserId;
     private ArrayList<qrOption> Options;
 
-    static class qrOption extends Option{
+    static class qrOption extends Option {
         private int Quantity;
-        public qrOption(String id, String name, int price, String imgName, String description,int quantity) {
+
+        public qrOption(String id, String name, int price, String imgName, String description, int quantity) {
             super(id, name, price, imgName, description);
-            Quantity=quantity;
+            Quantity = quantity;
         }
 
         public int getQuantity() {
@@ -34,12 +35,14 @@ public class Qr {
             Quantity = quantity;
         }
     }
-    static class qrCategory extends Category{
+
+    static class qrCategory extends Category {
         public ArrayList<qrOption> AllqrOptions;
 
         public qrCategory(String id, String name, int index) {
             super(id, name, index);
         }
+
         public ArrayList<qrOption> getAllqrOptions() {
             return AllqrOptions;
         }
@@ -49,20 +52,23 @@ public class Qr {
         }
     }
 
-    interface QrCode{
+    interface QrCode {
         void isQrChanged(int status);
     }
-    interface AddQrCode{
+
+    interface AddQrCode {
         void QrCodeAdded(String id);
     }
 
     public Qr() {
     }
+
     public Qr(String id, int price, int status) {
         Id = id;
         Price = price;
         Status = status;
     }
+
     public Qr(int price, int status, ArrayList<qrOption> options) {
         Price = price;
         Status = status;
@@ -109,23 +115,25 @@ public class Qr {
         Options = options;
     }
 
-    public static void AddQr(Qr qr,AddQrCode addQrCode){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("QrCode").push();
+    public static void AddQr(Qr qr, AddQrCode addQrCode) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("QrCode").push();
         qr.setId(ref.getKey());
         ref.setValue(qr).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) addQrCode.QrCodeAdded(ref.getKey());
+                if (task.isSuccessful()) addQrCode.QrCodeAdded(ref.getKey());
             }
         });
     }
-    public static void isQrChanged(String id,QrCode qrCode){
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("QrCode").child(id);
+
+    public static void isQrChanged(String id, QrCode qrCode) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("QrCode").child(id);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 qrCode.isQrChanged(snapshot.child("status").getValue(int.class));
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

@@ -26,34 +26,34 @@ public class WorkTime extends AppCompatActivity {
     String UminuteTime, UhourTime;
     int minute, hour;
     String Uminute, Uhour;
-    String StrfromTime,StrtoTime;
-    Spinner fromDay,toDay;
-    TextView fromTime,toTime;
-    Button newEdit,cancel;
-    String todayselect,fromdayselect;
-    DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("About_Us");
-
+    String StrfromTime, StrtoTime;
+    Spinner fromDay, toDay;
+    TextView fromTime, toTime;
+    Button newEdit, cancel;
+    String todayselect, fromdayselect;
+    DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference().child("About_Us");
     Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.worktimedialog);
-         toTime = (TextView) findViewById(R.id.ToTime);
-         fromTime = (TextView) findViewById(R.id.FromTime);
-         cancel = (Button) findViewById(R.id.Cancel);
-         newEdit = (Button) findViewById(R.id.NewEdit);
-         fromDay =(Spinner) findViewById(R.id.FromDayspinner);
-         toDay =(Spinner) findViewById(R.id.ToDayspinner);
+        toTime = (TextView) findViewById(R.id.ToTime);
+        fromTime = (TextView) findViewById(R.id.FromTime);
+        cancel = (Button) findViewById(R.id.Cancel);
+        newEdit = (Button) findViewById(R.id.NewEdit);
+        fromDay = (Spinner) findViewById(R.id.FromDayspinner);
+        toDay = (Spinner) findViewById(R.id.ToDayspinner);
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap:snapshot.getChildren()){
-                    switch (snap.getKey()){
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    switch (snap.getKey()) {
                         case "FromDay":
-                            fromDay.setSelection(getIndex(fromDay,snap.getValue().toString()));
+                            fromDay.setSelection(getIndex(fromDay, snap.getValue().toString()));
                             break;
                         case "ToDay":
-                            toDay.setSelection(getIndex(toDay,snap.getValue().toString()));
+                            toDay.setSelection(getIndex(toDay, snap.getValue().toString()));
                             break;
                         case "FromTime":
                             fromTime.setText(snap.getValue().toString());
@@ -62,64 +62,59 @@ public class WorkTime extends AppCompatActivity {
                             toTime.setText(snap.getValue().toString());
                             break;
                     }
-
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-         fromDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        fromDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 fromdayselect = parent.getItemAtPosition(position).toString();
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-         toDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        toDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 todayselect = parent.getItemAtPosition(position).toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-         fromTime.setOnClickListener(new View.OnClickListener() {
+        fromTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog.OnTimeSetListener onTimeSetListener1 = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int sHour, int sMinute) {
-                         hour = sHour;
-                        minute =sMinute;
-                        if(hour>00 && hour<=9  ) {
-                            Uhour = "0"+String.valueOf(hour);}
-                        else if(hour==00){
-                            Uhour="00";}
-                        else { Uhour=String.valueOf(hour);}
-                         if (minute >00 && minute <= 9) {
-                             Uminute="0"+String.valueOf(Uminute);}
-                         else if(minute==00){
-                             Uminute="00";}
-                         else { Uminute=String.valueOf(minute);}
-
-                        fromTime.setText(Uhour + ":"+ Uminute);
+                        hour = sHour;
+                        minute = sMinute;
+                        if (hour > 00 && hour <= 9) {
+                            Uhour = "0" + String.valueOf(hour);
+                        } else if (hour == 00) {
+                            Uhour = "00";
+                        } else {
+                            Uhour = String.valueOf(hour);
                         }
+                        if (minute > 00 && minute <= 9) {
+                            Uminute = "0" + String.valueOf(Uminute);
+                        } else if (minute == 00) {
+                            Uminute = "00";
+                        } else {
+                            Uminute = String.valueOf(minute);
+                        }
+                        fromTime.setText(Uhour + ":" + Uminute);
+                    }
                 };
-                TimePickerDialog timePickerDialog1 = new TimePickerDialog(WorkTime.this, onTimeSetListener1, hourTime, minuteTime,true);
+                TimePickerDialog timePickerDialog1 = new TimePickerDialog(WorkTime.this, onTimeSetListener1, hourTime, minuteTime, true);
                 timePickerDialog1.setTitle("Select Time");
                 timePickerDialog1.show();
             }
-
         });
         toTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,54 +123,56 @@ public class WorkTime extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int sHour, int sMinute) {
                         hourTime = sHour;
-                        minuteTime =sMinute;
-                        if(hourTime>00 && hourTime<=9  ) {
-                                UhourTime = "0"+String.valueOf(hourTime);}
-                        else if (hourTime==.0){
-                            UhourTime = "00";}
-                        else { UhourTime=String.valueOf(hourTime);}
-
-                        if (minuteTime >00 && minuteTime <= 9) {
-                                UminuteTime="0"+String.valueOf(Uminute);}
-                        else if(minuteTime==00){
-                            UminuteTime="00";
-                        } else { UminuteTime=String.valueOf(minuteTime);}
-
-                        toTime.setText(UhourTime + ":" +UminuteTime); }
+                        minuteTime = sMinute;
+                        if (hourTime > 00 && hourTime <= 9) {
+                            UhourTime = "0" + String.valueOf(hourTime);
+                        } else if (hourTime == .0) {
+                            UhourTime = "00";
+                        } else {
+                            UhourTime = String.valueOf(hourTime);
+                        }
+                        if (minuteTime > 00 && minuteTime <= 9) {
+                            UminuteTime = "0" + String.valueOf(Uminute);
+                        } else if (minuteTime == 00) {
+                            UminuteTime = "00";
+                        } else {
+                            UminuteTime = String.valueOf(minuteTime);
+                        }
+                        toTime.setText(UhourTime + ":" + UminuteTime);
+                    }
                 };
-                TimePickerDialog timePickerDialog = new TimePickerDialog(WorkTime.this, onTimeSetListener, hourTime, minuteTime,true);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(WorkTime.this, onTimeSetListener, hourTime, minuteTime, true);
                 timePickerDialog.setTitle("Select Time");
                 timePickerDialog.show();
             }
-
         });
         newEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseDatabase.child("FromTime").setValue(Uhour+":"+Uminute);
-                firebaseDatabase.child("ToTime").setValue(UhourTime+":"+UminuteTime);
+                firebaseDatabase.child("FromTime").setValue(Uhour + ":" + Uminute);
+                firebaseDatabase.child("ToTime").setValue(UhourTime + ":" + UminuteTime);
                 firebaseDatabase.child("ToDay").setValue(todayselect);
                 firebaseDatabase.child("FromDay").setValue(fromdayselect);
                 Toast.makeText(WorkTime.this, "TimeWork is Updated", Toast.LENGTH_SHORT).show();
-                intent = new Intent(WorkTime.this,AboutUs.class);
+                intent = new Intent(WorkTime.this, AboutUs.class);
                 startActivity(intent);
                 finish();
-
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(WorkTime.this,AboutUs.class);
+                intent = new Intent(WorkTime.this, AboutUs.class);
                 startActivity(intent);
                 finish();
             }
         });
 
     }
-    public int getIndex(Spinner spinner,String string){
-        for(int i=0 ;i<spinner.getCount();i++){
-            if(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(string)){
+
+    public int getIndex(Spinner spinner, String string) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(string)) {
                 return i;
             }
         }

@@ -23,9 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class PasswordEdit extends AppCompatActivity {
     Button edit;
-    EditText newPassword,confiremPassword;
-    FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-    FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+    EditText newPassword, confiremPassword;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,53 +37,61 @@ public class PasswordEdit extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 String NewPassword = newPassword.getText().toString();
-                 String ConfiremPassword = confiremPassword.getText().toString();
+                String NewPassword = newPassword.getText().toString();
+                String ConfiremPassword = confiremPassword.getText().toString();
                 if (isValidData(PasswordEdit.this, NewPassword, ConfiremPassword)) {
-                        firebaseUser.updatePassword(NewPassword)
-                                .addOnCompleteListener(PasswordEdit.this,new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Toast.makeText(PasswordEdit.this, "Password Updated", Toast.LENGTH_SHORT).show();
-                                        }else{
-                                            Toast.makeText(PasswordEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    firebaseUser.updatePassword(NewPassword)
+                            .addOnCompleteListener(PasswordEdit.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(PasswordEdit.this, "Password Updated", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(PasswordEdit.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
-                                        }
                                     }
-                                });
-            }
+                                }
+                            });
+                }
             }
 
-    });
+        });
     }
-        static boolean isValidData(Activity thisActivity,String NewPassword,String ConfiremPassword){
-            Boolean isValidNewPassword,isValidConfiremPassword;
-            ArrayList<String> errors=new ArrayList<>();
 
-            isValidNewPassword= NewPassword.length()>=6;
-            isValidConfiremPassword=(ConfiremPassword.equals(NewPassword));
+    static boolean isValidData(Activity thisActivity, String NewPassword, String ConfiremPassword) {
+        Boolean isValidNewPassword, isValidConfiremPassword;
+        ArrayList<String> errors = new ArrayList<>();
+
+        isValidNewPassword = NewPassword.length() >= 6;
+        isValidConfiremPassword = (ConfiremPassword.equals(NewPassword));
 
 
-            if (!isValidNewPassword) {errors.add("The Password is very Short");}
-            if (!isValidConfiremPassword) {errors.add("Passwords is not equal"); }
-            if(!(isValidNewPassword && isValidConfiremPassword)){show(thisActivity,errors);}
-
-            return isValidNewPassword && isValidConfiremPassword ;
+        if (!isValidNewPassword) {
+            errors.add("The Password is very Short");
         }
-        static void show(Activity thisActivity, ArrayList<String> errors){
-            AlertDialog.Builder adb = new AlertDialog.Builder(thisActivity);
-            LinearLayout L = new LinearLayout(thisActivity);
-            L.setOrientation(LinearLayout.VERTICAL);
-
-            for (int i=0;i<errors.size();i++) {
-                TextView Tv = new TextView(thisActivity);
-                Tv.setText(errors.get(i));
-                L.addView(Tv);
-            }
-            adb.setView(L);
-            Dialog d = adb.create();
-            d.show();
+        if (!isValidConfiremPassword) {
+            errors.add("Passwords is not equal");
         }
+        if (!(isValidNewPassword && isValidConfiremPassword)) {
+            show(thisActivity, errors);
+        }
+
+        return isValidNewPassword && isValidConfiremPassword;
+    }
+
+    static void show(Activity thisActivity, ArrayList<String> errors) {
+        AlertDialog.Builder adb = new AlertDialog.Builder(thisActivity);
+        LinearLayout L = new LinearLayout(thisActivity);
+        L.setOrientation(LinearLayout.VERTICAL);
+
+        for (int i = 0; i < errors.size(); i++) {
+            TextView Tv = new TextView(thisActivity);
+            Tv.setText(errors.get(i));
+            L.addView(Tv);
+        }
+        adb.setView(L);
+        Dialog d = adb.create();
+        d.show();
+    }
 
 }

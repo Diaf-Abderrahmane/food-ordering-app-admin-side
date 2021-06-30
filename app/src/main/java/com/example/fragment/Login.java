@@ -25,11 +25,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
-    private TextView res,top,toContinue,login;
+    private TextView res, top, toContinue, login;
     private TextInputLayout email, password;
-    private Button loginBtn,toRegister,forgotPassword;
+    private Button loginBtn, toRegister, forgotPassword;
     private FirebaseAuth fAuth;
-    private boolean b=true;
+    private boolean b = true;
     private DatabaseReference ref;
     private TextWatcher loginTextWatcher = new TextWatcher() {
         @Override
@@ -96,23 +96,24 @@ public class Login extends AppCompatActivity {
                     String vpassword = password.getEditText().getText().toString();
 
                     if (b)
-                    fAuth.signInWithEmailAndPassword(vemail, vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                b=false;
-                                ref = FirebaseDatabase.getInstance().getReference().child("Admins").child(fAuth.getCurrentUser().getUid());
-                                ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                        if (task.isSuccessful() && (task.getResult().getChildrenCount()>0))  startActivity(new Intent(Login.this, MainActivity.class));
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(Login.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        fAuth.signInWithEmailAndPassword(vemail, vpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    b = false;
+                                    ref = FirebaseDatabase.getInstance().getReference().child("Admins").child(fAuth.getCurrentUser().getUid());
+                                    ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            if (task.isSuccessful() && (task.getResult().getChildrenCount() > 0))
+                                                startActivity(new Intent(Login.this, MainActivity.class));
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(Login.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                    });
+                        });
                 } else {
                     Toast.makeText(Login.this, "Validation failed", Toast.LENGTH_SHORT).show();
                 }
