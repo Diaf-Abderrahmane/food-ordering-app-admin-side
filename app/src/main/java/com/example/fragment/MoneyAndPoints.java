@@ -87,7 +87,7 @@ public class MoneyAndPoints extends AppCompatActivity {
                     intent.putExtra("key", 4);
                     startActivity(intent);
                 }else
-                    Toast.makeText(MoneyAndPoints.this, "check you fields (must be do not empty and different from 0) ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MoneyAndPoints.this, "check you fields (Must be and different from 0 and not empty) ", Toast.LENGTH_SHORT).show();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
