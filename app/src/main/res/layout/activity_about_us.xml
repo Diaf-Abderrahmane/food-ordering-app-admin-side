@@ -166,6 +166,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Email"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
 
@@ -198,6 +199,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="WorkTime"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -242,6 +244,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Facebook Page"
                                 android:textColor="@color/black"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textSize="15sp" />
 
                         </LinearLayout>
@@ -274,6 +277,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Instagram Account"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -316,6 +320,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Phone Number"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -350,6 +355,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Restaurant Name"
+                                android:fontFamily="@font/opensans_regular"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>

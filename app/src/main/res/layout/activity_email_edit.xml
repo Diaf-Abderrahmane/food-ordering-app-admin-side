@@ -21,6 +21,7 @@
         android:layout_height="60dp"
         android:paddingLeft="40dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/opensans_regular"
         android:textColorHint="@color/eblack"
         android:layout_margin="20dp"
 
@@ -33,6 +34,7 @@
         android:layout_height="60dp"
         android:layout_margin="20dp"
         android:hint="Confirmer Email"
+        android:fontFamily="@font/opensans_regular"
         android:paddingLeft="40dp"
         android:textColor="@color/black"
         android:textColorHint="@color/eblack"
@@ -45,6 +47,7 @@
         android:layout_margin="20dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/btncercle"
+        android:fontFamily="@font/opensans_regular"
         android:text="Edit"
         android:textColor="@color/white"
         android:textStyle="bold"/>

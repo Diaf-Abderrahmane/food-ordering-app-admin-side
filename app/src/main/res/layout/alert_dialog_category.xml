@@ -18,6 +18,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="24dp"
+        android:fontFamily="@font/opensans_regular"
         android:textColor="@color/black"
         android:text="Add new category"/>
     <LinearLayout
@@ -31,11 +32,13 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             app:errorEnabled="true"
+            android:fontFamily="@font/opensans_regular"
             android:id="@+id/c_name"
             android:hint="Category name">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/dialog_category_name"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/opensans_regular"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -44,6 +47,7 @@
     <Button
         android:id="@+id/dialog_btn"
         android:layout_width="match_parent"
+        android:fontFamily="@font/opensans_regular"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"

@@ -150,6 +150,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email Edit"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
@@ -183,6 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Password Edit"
+                        android:fontFamily="@font/opensans_regular"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -223,6 +225,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="Send Notification"
                         android:textColor="@color/black"
@@ -258,6 +261,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_regular"
                         android:text="About Us"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
@@ -297,6 +301,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_regular"
                         android:gravity="center"
                         android:text="Points Value"
                         android:textColor="@color/black"
@@ -333,6 +338,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/opensans_regular"
                         android:text="Exit"
                         android:textColor="@color/black"
                         android:textSize="20sp" />

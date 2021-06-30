@@ -42,7 +42,7 @@
                     android:textSize="13dp"
                     android:textStyle="bold"
                     android:lines="2"
-                    android:textColor="@color/black"
+                    android:textColor="@color/eblack"
                     android:fontFamily="@font/opensans_regular"
                     android:text="Description"/>
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
                     android:textSize="14dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/primaryColor"
                     android:textStyle="bold"
                     android:fontFamily="@font/opensans_regular"
                     android:text="Price"/>

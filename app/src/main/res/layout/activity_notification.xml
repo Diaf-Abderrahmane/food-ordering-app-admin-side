@@ -23,6 +23,7 @@
         android:text="Send new Notification"
         android:textColor="@color/black"
         android:textSize="24dp"
+        android:fontFamily="@font/opensans_regular"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,10 +34,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:hint="Title"
+        android:fontFamily="@font/opensans_regular"
         android:textColor="@color/black"
         android:textColorHint="@color/eblack">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Title"
+            android:fontFamily="@font/opensans_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"/>
@@ -46,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
+        android:fontFamily="@font/opensans_regular"
         android:textColorHint="@color/eblack"
         android:layout_marginTop="10dp"
         android:hint="Description">
@@ -54,6 +58,7 @@
             android:id="@+id/Text"
             android:layout_width="match_parent"
             android:layout_height="104dp"
+            android:fontFamily="@font/opensans_regular"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textColor="@color/eblack"
+        android:fontFamily="@font/opensans_regular"
         android:text="Image"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -130,6 +136,7 @@
         android:layout_marginTop="32dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
+        android:fontFamily="@font/opensans_regular"
         android:background="@drawable/btncercle"
         android:text="Send"/>
 </LinearLayout>

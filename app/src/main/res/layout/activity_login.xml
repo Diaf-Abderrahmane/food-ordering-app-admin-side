@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:textSize="30sp"
         android:textColor="#A35709"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/opensans_regular"
         android:layout_gravity="center_horizontal"
         />
     <TextView
@@ -27,7 +27,7 @@
         android:textSize="30sp"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/opensans_regular"
         android:layout_gravity="center_horizontal"
         />
     <androidx.cardview.widget.CardView
@@ -51,25 +51,16 @@
             android:layout_height="wrap_content"
             android:text="Getting Started"
             android:textColor="@color/black"
-            android:fontFamily="sans-serif-medium"
+            android:fontFamily="@font/opensans_regular"
             android:textSize="35sp"
             android:layout_marginTop="10dp"
             />
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/login"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:fontFamily="sans-serif-medium"-->
-<!--            android:textSize="35sp"-->
-<!--            android:text="WELCOME BACK !"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            />-->
         <TextView
             android:id="@+id/toContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sign in to continue"
+            android:fontFamily="@font/opensans_regular"
             android:layout_marginTop="10dp"
             android:textSize="18sp"
             />
@@ -79,12 +70,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
+            android:fontFamily="@font/opensans_regular"
             app:errorEnabled="true"
             android:layout_marginTop="40dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_regular"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:hint="Password"
+            android:fontFamily="@font/opensans_regular"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -100,6 +94,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_regular"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,6 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="forgot password?"
+        android:fontFamily="@font/opensans_regular"
         android:textSize="10sp"
         android:layout_marginStart="235dp"
         android:textStyle="bold"
@@ -125,6 +121,7 @@
         android:layout_height="wrap_content"
         android:text="GO"
         android:textColor="@color/black"
+        android:fontFamily="@font/opensans_regular"
         android:layout_marginTop="20dp"
         android:background="@drawable/buttonn"
         />
@@ -133,6 +130,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New in ResTop? Sign up"
+        android:fontFamily="@font/opensans_regular"
         android:textColor="@color/black"
         style="@style/Widget.AppCompat.Button.Borderless"
         />

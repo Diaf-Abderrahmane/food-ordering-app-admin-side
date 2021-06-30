@@ -48,6 +48,7 @@
                 android:gravity="center_vertical"
                 android:text="Home"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
@@ -68,6 +69,7 @@
                 android:gravity="center_vertical"
                 android:text="QR generator"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
@@ -88,6 +90,7 @@
                 android:gravity="center_vertical"
                 android:text="Reviews"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
@@ -108,6 +111,7 @@
                 android:gravity="center_vertical"
                 android:text="Setting"
                 android:textSize="10dp"
+                android:fontFamily="@font/opensans_regular"
                 android:textColor="@color/black"/>
         </LinearLayout>
 
