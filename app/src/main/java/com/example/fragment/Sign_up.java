@@ -49,13 +49,7 @@ public class Sign_up extends AppCompatActivity {
             String passwordInput = password.getEditText().getText().toString().trim();
             String confirmInput = confirmPassword.getEditText().getText().toString().trim();
             signUpBtn.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty() && !confirmInput.isEmpty());
-//            if (loginBtn.isEnabled())  {
-//                loginBtn.setBackgroundColor(Color.BLACK);
-//                loginBtn.setTextColor(Color.WHITE);
-//            } else {
-//                loginBtn.setBackgroundColor(Color.GRAY);
-//                loginBtn.setTextColor(Color.BLACK);
-//            }
+
 
         }
 
@@ -109,15 +103,12 @@ public class Sign_up extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 fAuth.signInWithEmailAndPassword(vemail, vpassword);
                                 String userId = fAuth.getCurrentUser().getUid();
-                                Toast.makeText(Sign_up.this, "Admin Created", Toast.LENGTH_SHORT).show();
-
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("Email", vemail);
-                                map.put("NotificationActivation", 1);
                                 FirebaseDatabase.getInstance().getReference().child("Admins").child(userId).setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Sign_up.this, "data added successfully", Toast.LENGTH_SHORT).show();
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -125,7 +116,6 @@ public class Sign_up extends AppCompatActivity {
                                         Toast.makeText(Sign_up.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                Toast.makeText(Sign_up.this, userId, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Sign_up.this, MainActivity.class));
                             } else {
                                 Toast.makeText(Sign_up.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

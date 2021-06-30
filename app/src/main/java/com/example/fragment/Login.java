@@ -42,13 +42,7 @@ public class Login extends AppCompatActivity {
             String emailInput = email.getEditText().getText().toString().trim();
             String passwordInput = password.getEditText().getText().toString().trim();
             loginBtn.setEnabled(!emailInput.isEmpty() && !passwordInput.isEmpty());
-//            if (loginBtn.isEnabled())  {
-//                loginBtn.setBackgroundColor(Color.BLACK);
-//                loginBtn.setTextColor(Color.WHITE);
-//            } else {
-//                loginBtn.setBackgroundColor(Color.GRAY);
-//                loginBtn.setTextColor(Color.BLACK);
-//            }
+
 
         }
 

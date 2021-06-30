@@ -55,16 +55,6 @@
             android:textSize="35sp"
             android:layout_marginTop="10dp"
             />
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/login"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:fontFamily="sans-serif-medium"-->
-<!--            android:textSize="35sp"-->
-<!--            android:text="WELCOME BACK !"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            />-->
         <TextView
             android:id="@+id/toContinue"
             android:layout_width="wrap_content"
@@ -103,21 +93,21 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
-
-    <Button
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="forgot password?"
-        android:textSize="10sp"
-        android:layout_marginStart="235dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        style="@style/Widget.AppCompat.Button.Borderless"/>
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+        <Button
+            android:id="@+id/forgotPassword"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:text="forgot password?"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        </RelativeLayout>
 
     <Button
         android:id="@+id/loginBtn"
